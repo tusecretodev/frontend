@@ -8,7 +8,7 @@ import LoginModal from '../components/LoginModal'
 import CreateSecretModal from '../components/CreateSecretModal'
 import Announcements from '../components/Announcements'
 import BanScreen from '../components/BanScreen'
-import ThreeJSLoader from '../components/ThreeJSLoader'
+// import ThreeJSLoader from '../components/ThreeJSLoader' // Removido para reducir bundle size
 import SEO from '../components/SEO'
 
 interface Secret {
@@ -138,7 +138,16 @@ export default function Home() {
         <div className="text-center px-8">
           <div className="mb-8">
             <div className="relative">
-                <ThreeJSLoader className="absolute inset-0 opacity-30" />
+                <div className="absolute inset-0 opacity-30 flex items-center justify-center">
+                  <div className="hexagon-loader">
+                    <div className="hexagon"></div>
+                    <div className="hexagon"></div>
+                    <div className="hexagon"></div>
+                    <div className="hexagon"></div>
+                    <div className="hexagon"></div>
+                    <div className="hexagon"></div>
+                  </div>
+                </div>
                 <div className="animate-emoji-bounce text-6xl mb-4 relative z-10">🤫</div>
               </div>
             <h1 className="text-4xl font-bold mb-4 animate-fade-in" style={{ color: 'var(--text-primary)' }}>
