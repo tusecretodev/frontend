@@ -38,7 +38,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
     }
     
     return () => {
-      if (observer && observer.unobserve) {
+      if (observer) {
         observer.disconnect()
       }
     }
