@@ -1,49 +1,18 @@
 import { GetServerSideProps } from 'next'
 
-// Configure for Edge Runtime - Required for Cloudflare Pages
-export const runtime = 'experimental-edge'
-
-function generateRobotsTxt() {
-  return `User-agent: *
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+  const robotsTxt = `User-agent: *
 Allow: /
 
-# Sitemap
 Sitemap: https://tusecreto.net/sitemap.xml
 
-# Disallow admin and API routes
 Disallow: /admin
 Disallow: /api/
 
-# Allow specific important pages
-Allow: /
-Allow: /privacy
-Allow: /terms
-Allow: /secret/*
-Allow: /profiles/*
-
-# Crawl delay for respectful crawling
-Crawl-delay: 1
-
-# Block common bots that don't respect robots.txt
-User-agent: AhrefsBot
-Disallow: /
-
-User-agent: MJ12bot
-Disallow: /
-
-User-agent: DotBot
-Disallow: /`
-}
-
-function RobotsTxt() {
-  // getServerSideProps will do the heavy lifting
-}
-
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-  // Generate the robots.txt
-  const robotsTxt = generateRobotsTxt()
+Crawl-delay: 1`
 
   res.setHeader('Content-Type', 'text/plain')
+  res.setHeader('Cache-Control', 'public, max-age=86400')
   res.write(robotsTxt)
   res.end()
 
@@ -52,4 +21,6 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   }
 }
 
-export default RobotsTxt
+export default function RobotsTxt() {
+  return null
+}
