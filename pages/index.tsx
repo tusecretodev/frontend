@@ -197,10 +197,54 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="TuSecreto - Secretos Anónimos y Privados"
-        description="Descubre y comparte secretos de forma 100% anónima. Plataforma segura sin emails ni datos personales. Únete a la comunidad más privada de secretos."
-        keywords="secretos anónimos, confesar secretos, plataforma privada, anonimato real, compartir secretos, comunidad anónima"
-        url="https://secretos.tusecreto.net"
+        title="TuSecreto - Secretos Anónimos y Privados | Máxima Privacidad 2024"
+        description="🔒 Descubre y comparte secretos 100% anónimos. Sin emails, sin registro, sin rastreo. Hosting seguro en Suecia. La comunidad más privada de secretos. ¡Gratis y sin límites!"
+        keywords="secretos anónimos, confesar secretos, plataforma privada, anonimato real, compartir secretos, comunidad anónima, secretos online, confesiones privadas, privacidad digital, hosting Suecia, sin registro, gratis"
+        url="https://tusecreto.net"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "TuSecreto",
+          "alternateName": "TuSecreto - Secretos Anónimos",
+          "url": "https://tusecreto.net",
+          "description": "Plataforma líder para compartir secretos de forma 100% anónima con máxima privacidad y seguridad.",
+          "inLanguage": "es-ES",
+          "isAccessibleForFree": true,
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://tusecreto.net/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "TuSecreto",
+            "url": "https://tusecreto.net",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://tusecreto.net/tusecreto.png"
+            }
+          },
+          "mainEntity": {
+            "@type": "WebApplication",
+            "name": "TuSecreto",
+            "url": "https://tusecreto.net",
+            "applicationCategory": "SocialNetworkingApplication",
+            "operatingSystem": "Web Browser",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "EUR"
+            },
+            "featureList": [
+              "Compartir secretos anónimos",
+              "100% privacidad garantizada",
+              "Sin registro requerido",
+              "Hosting en Suecia",
+              "Comunidad activa",
+              "Interfaz intuitiva"
+            ]
+          }
+        }}
       />
       <Layout user={user} onLogin={() => setShowLogin(true)} onLogout={handleLogout}>
         <div className="max-w-5xl mx-auto px-3 sm:px-4 py-6">

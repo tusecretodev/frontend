@@ -28,9 +28,15 @@ export default function Document() {
         <link rel="apple-touch-icon" sizes="180x180" href="/tusecreto.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/tusecreto.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/tusecreto.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/tusecreto.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/tusecreto.png" />
+        <link rel="manifest" href="/manifest.json" />
         <meta name="msapplication-TileImage" content="/tusecreto.png" />
         <meta name="msapplication-TileColor" content="#000000" />
         <meta name="theme-color" content="#000000" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         
         {/* Security Headers */}
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />

@@ -1,0 +1,61 @@
+{
+  "name": "TuSecreto - Secretos Anónimos",
+  "short_name": "TuSecreto",
+  "description": "Plataforma líder para compartir secretos de forma 100% anónima con máxima privacidad y seguridad",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "es",
+  "categories": ["social", "privacy", "lifestyle"],
+  "icons": [
+    {
+      "src": "/tusecreto.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/tusecreto.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/tusecreto.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Crear Secreto",
+      "short_name": "Crear",
+      "description": "Compartir un nuevo secreto anónimo",
+      "url": "/?action=create",
+      "icons": [
+        {
+          "src": "/tusecreto.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Ver Secretos",
+      "short_name": "Ver",
+      "description": "Explorar secretos de la comunidad",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/tusecreto.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

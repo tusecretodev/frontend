@@ -11,19 +11,23 @@ interface SEOProps {
   modifiedTime?: string
   author?: string
   noindex?: boolean
+  structuredData?: object
+  alternateLanguages?: { hreflang: string; href: string }[]
 }
 
 const SEO: React.FC<SEOProps> = ({
-  title = "TuSecreto - Plataforma Anónima para Compartir Secretos",
-  description = "Comparte tus secretos de forma 100% anónima. Sin emails, sin datos personales. Hosting en Suecia con máxima privacidad y seguridad.",
-  keywords = "secretos anónimos, confesar secretos, plataforma anónima, privacidad total, compartir secretos, anonimato real",
-  image = "https://secretos.tusecreto.net/tusecreto.png",
-  url = "https://secretos.tusecreto.net",
+  title = "TuSecreto - Plataforma Anónima para Compartir Secretos | Máxima Privacidad",
+  description = "🔒 Comparte secretos 100% anónimos. Sin emails, sin registro, sin rastreo. Hosting en Suecia con máxima privacidad. Únete a la comunidad más segura de secretos anónimos. ¡Totalmente gratis!",
+  keywords = "secretos anónimos, confesar secretos, plataforma anónima, privacidad total, compartir secretos, anonimato real, secretos online, confesiones anónimas, privacidad digital, comunidad anónima, hosting Suecia, sin registro",
+  image = "https://tusecreto.net/tusecreto.png",
+  url = "https://tusecreto.net",
   type = "website",
   publishedTime,
   modifiedTime,
   author,
-  noindex = false
+  noindex = false,
+  structuredData,
+  alternateLanguages
 }) => {
   const fullTitle = title.includes('TuSecreto') ? title : `${title} | TuSecreto`
   
@@ -71,6 +75,63 @@ const SEO: React.FC<SEOProps> = ({
       <meta name="twitter:image:alt" content={fullTitle} />
       <meta name="twitter:site" content="@tusecreto" />
       <meta name="twitter:creator" content="@tusecreto" />
+      
+      {/* Advanced SEO */}
+      <meta name="application-name" content="TuSecreto" />
+      <meta name="apple-mobile-web-app-title" content="TuSecreto" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      <meta name="mobile-web-app-capable" content="yes" />
+      <meta name="format-detection" content="telephone=no" />
+      
+      {/* Geo tags */}
+      <meta name="geo.region" content="SE" />
+      <meta name="geo.country" content="Sweden" />
+      <meta name="ICBM" content="59.3293,18.0686" />
+      
+      {/* Additional SEO */}
+      <meta name="subject" content="Secretos Anónimos y Privacidad Digital" />
+      <meta name="copyright" content="TuSecreto" />
+      <meta name="abstract" content="Plataforma líder en compartir secretos de forma 100% anónima con máxima privacidad y seguridad." />
+      <meta name="topic" content="Privacidad, Anonimato, Secretos" />
+      <meta name="summary" content="La plataforma más segura para compartir secretos anónimos sin registro ni datos personales." />
+      <meta name="classification" content="Social Network, Privacy Platform" />
+      <meta name="designer" content="TuSecreto Team" />
+      <meta name="reply-to" content="admin@tusecreto.net" />
+      <meta name="owner" content="TuSecreto" />
+      <meta name="url" content={url} />
+      <meta name="identifier-URL" content={url} />
+      <meta name="directory" content="submission" />
+      <meta name="category" content="Social, Privacy, Technology" />
+      <meta name="coverage" content="Worldwide" />
+      <meta name="distribution" content="Global" />
+      <meta name="rating" content="General" />
+      
+      {/* Structured Data */}
+      {structuredData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      )}
+      
+      {/* Alternate Languages */}
+      {alternateLanguages?.map((lang) => (
+        <link
+          key={lang.hreflang}
+          rel="alternate"
+          hrefLang={lang.hreflang}
+          href={lang.href}
+        />
+      ))}
+      
+      {/* Preconnect to external domains */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      
+      {/* DNS prefetch */}
+      <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+      <link rel="dns-prefetch" href="//fonts.gstatic.com" />
     </Head>
   )
 }
