@@ -75,15 +75,7 @@ const nextConfig = {
     ];
   },
   
-  // API rewrites
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://belize-because-things-scroll.trycloudflare.com/api/:path*',
-      },
-    ];
-  },
+  // API rewrites removed - now handled by pages/api/[...proxy].ts
 };
 
 module.exports = nextConfig;
