@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 
 // Configure for Edge Runtime
-export const runtime = 'edge'
+export const runtime = 'experimental-edge'
 
 function generateSiteMap() {
   const baseUrl = 'https://secretos.tusecreto.net'
