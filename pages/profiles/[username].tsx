@@ -5,6 +5,7 @@ import Layout from '../../components/Layout'
 import BanScreen from '../../components/BanScreen'
 import { FiUser, FiMessageCircle, FiCalendar, FiEye, FiHeart, FiMessageSquare, FiEdit3, FiSave, FiX } from 'react-icons/fi'
 import { useTheme } from '../../contexts/ThemeContext'
+import UserDisplay from '../../components/UserDisplay'
 
 interface UserProfile {
   username: string
@@ -227,7 +228,7 @@ export default function UserProfile() {
                   <FiUser size={32} style={{ color: 'var(--text-primary)' }} />
                 </div>
                 <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-                  {profile.username}
+                  <UserDisplay username={profile.username} size="lg" />
                 </h1>
                 <div className="flex items-center gap-2 text-sm opacity-60">
                   <FiCalendar size={14} />

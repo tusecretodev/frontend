@@ -6,6 +6,7 @@ import {
   FiEye, FiHeart, FiMessageCircle, FiFlag, FiWifi, FiAlertTriangle,
   FiCheckCircle, FiXCircle, FiMapPin, FiSmartphone, FiCalendar, FiTrendingUp
 } from 'react-icons/fi'
+import UserDisplay from './UserDisplay'
 
 interface UserDetails {
   basic: {
@@ -194,7 +195,7 @@ export default function UserDetailsModal({ username, onClose, onBanUser, onUnban
               <div>
                 <div className="flex items-center gap-3">
                   <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                    {userDetails.basic.username}
+                    <UserDisplay username={userDetails.basic.username} size="lg" />
                   </h2>
                   {userDetails.basic.isBanned && (
                     <span className="px-3 py-1 rounded-full text-sm bg-red-500/20 text-red-500 font-medium">

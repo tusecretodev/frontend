@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Plus, Edit, Trash2, Eye, EyeOff, AlertCircle, Info, CheckCircle, AlertTriangle } from 'lucide-react'
 import Cookies from 'js-cookie'
+import UserDisplay from './UserDisplay'
 
 interface Announcement {
   id: string
@@ -230,7 +231,7 @@ const AnnouncementManager: React.FC<AnnouncementManagerProps> = ({ className = '
                     {announcement.content}
                   </p>
                   <div className="text-xs text-gray-500 dark:text-gray-500">
-                    Creado por {announcement.createdBy} • {new Date(announcement.createdAt).toLocaleDateString('es-ES')}
+                    Creado <UserDisplay username={announcement.createdBy} showPrefix={true} /> • {new Date(announcement.createdAt).toLocaleDateString('es-ES')}
                     {announcement.updatedAt && (
                       <span> • Editado {new Date(announcement.updatedAt).toLocaleDateString('es-ES')}</span>
                     )}

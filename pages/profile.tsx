@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import Layout from '../components/Layout'
 import BanScreen from '../components/BanScreen'
 import { FiEye, FiHeart, FiMessageCircle, FiCalendar, FiTrash2 } from 'react-icons/fi'
+import UserDisplay from '../components/UserDisplay'
 
 interface Secret {
   id: string
@@ -159,7 +160,11 @@ export default function Profile() {
               </div>
               <div>
                 <h1 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                  {user === 'admin' ? 'Administrador' : user}
+                  {user === 'admin' ? (
+                    <UserDisplay username={user} size="lg" />
+                  ) : (
+                    user
+                  )}
                 </h1>
                 <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                   {userSecrets.length} secreto{userSecrets.length !== 1 ? 's' : ''} compartido{userSecrets.length !== 1 ? 's' : ''}

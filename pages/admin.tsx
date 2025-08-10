@@ -8,6 +8,7 @@ import LoginModal from '../components/LoginModal'
 import AnnouncementManager from '../components/AnnouncementManager'
 import IPLogsPanel from '../components/IPLogsPanel'
 import UserDetailsModal from '../components/UserDetailsModal'
+import UserDisplay from '../components/UserDisplay'
 
 interface Secret {
   id: string
@@ -378,7 +379,11 @@ export default function AdminPanel() {
                         </div>
                         <div>
                           <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
-                            {secret.author === 'admin' ? 'Admin' : 'Anónimo'}
+                            {secret.author === 'admin' ? (
+                              <UserDisplay username={secret.author} size="sm" />
+                            ) : (
+                              'Anónimo'
+                            )}
                           </p>
                           <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                             {new Date(secret.createdAt).toLocaleDateString('es-ES')}

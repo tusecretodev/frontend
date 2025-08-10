@@ -14,7 +14,7 @@ const nextConfig = {
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    domains: ['secretos.tusecreto.net', 'tusecreto.net', 'belize-because-things-scroll.trycloudflare.com'],
+    domains: ['secretos.tusecreto.net', 'tusecreto.net', 'intranet-london-eventually-place.trycloudflare.com'],
     loader: 'default',
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -79,7 +79,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'https://belize-because-things-scroll.trycloudflare.com/api/:path*',
+        destination: 'https://intranet-london-eventually-place.trycloudflare.com/api/:path*',
       },
     ];
   },

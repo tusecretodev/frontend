@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { X, AlertCircle, Info, CheckCircle, AlertTriangle } from 'lucide-react'
+import UserDisplay from './UserDisplay'
 
 interface Announcement {
   id: string
@@ -104,7 +105,7 @@ const Announcements: React.FC<AnnouncementsProps> = ({ className = '' }) => {
                 {announcement.content}
               </p>
               <div className="mt-2 text-xs opacity-70">
-                Por {announcement.createdBy} • {new Date(announcement.createdAt).toLocaleDateString('es-ES', {
+                <UserDisplay username={announcement.createdBy} showPrefix={true} /> • {new Date(announcement.createdAt).toLocaleDateString('es-ES', {
                   year: 'numeric',
                   month: 'short',
                   day: 'numeric',

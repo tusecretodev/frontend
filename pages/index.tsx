@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import { FiEye, FiHeart, FiMessageCircle, FiFlag, FiPlus } from 'react-icons/fi'
+import { FiEye, FiHeart, FiMessageCircle, FiFlag, FiPlus, FiSearch, FiX } from 'react-icons/fi'
 import Layout from '../components/Layout'
 import LoginModal from '../components/LoginModal'
 import CreateSecretModal from '../components/CreateSecretModal'
 import Announcements from '../components/Announcements'
 import BanScreen from '../components/BanScreen'
+import UserDisplay from '../components/UserDisplay'
 // import ThreeJSLoader from '../components/ThreeJSLoader' // Removido para reducir bundle size
 import SEO from '../components/SEO'
 
@@ -32,6 +33,7 @@ export default function Home() {
   const [user, setUser] = useState<string | null>(null)
   const [showWelcome, setShowWelcome] = useState(true)
   const [showBanScreen, setShowBanScreen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
   const router = useRouter()
 
   useEffect(() => {
@@ -132,6 +134,18 @@ export default function Home() {
     fetchSecrets()
   }
 
+  // Filtrar secretos basado en el término de búsqueda
+  const filteredSecrets = secrets.filter(secret => {
+    if (!searchTerm.trim()) return true
+    
+    const searchLower = searchTerm.toLowerCase()
+    return (
+      secret.content.toLowerCase().includes(searchLower) ||
+      secret.title.toLowerCase().includes(searchLower) ||
+      secret.author.toLowerCase().includes(searchLower)
+    )
+  })
+
   if (showWelcome) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
@@ -193,8 +207,40 @@ export default function Home() {
           {/* Anuncios */}
           <Announcements className="mb-8" />
           
+          {/* Barra de búsqueda */}
+          <div className="mb-6">
+            <div className="relative max-w-md mx-auto">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FiSearch className="h-5 w-5" style={{ color: 'var(--text-tertiary)' }} />
+              </div>
+              <input
+                type="text"
+                placeholder="Buscar secretos por contenido, título o autor..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-10 py-3 rounded-lg border transition-all duration-300 focus:outline-none focus:ring-2 focus:scale-105"
+                style={{
+                  backgroundColor: 'var(--bg-secondary)',
+                  borderColor: 'var(--border-primary)',
+                  color: 'var(--text-primary)',
+                  focusRingColor: 'var(--accent)'
+                }}
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm('')}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:scale-110 transition-transform"
+                >
+                  <FiX className="h-5 w-5" style={{ color: 'var(--text-tertiary)' }} />
+                </button>
+              )}
+            </div>
+          </div>
+          
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Secretos Recientes</h1>
+            <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+              {searchTerm ? `Resultados (${filteredSecrets.length})` : 'Secretos Recientes'}
+            </h1>
             <button
               onClick={handleCreateSecret}
               className="px-5 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105 flex items-center gap-2 group text-sm"
@@ -208,14 +254,28 @@ export default function Home() {
             </button>
           </div>
 
-          {secrets.length === 0 ? (
+          {filteredSecrets.length === 0 ? (
             <div className="text-center py-12 rounded-lg border transition-colors duration-300" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-primary)' }}>
-              <p className="text-base mb-3" style={{ color: 'var(--text-secondary)' }}>No hay secretos aún</p>
-              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Sé el primero en compartir un secreto</p>
+              {searchTerm ? (
+                <>
+                  <div className="text-4xl mb-4">🔍</div>
+                  <p className="text-base mb-3" style={{ color: 'var(--text-secondary)' }}>
+                    No se encontraron secretos para "<span className="font-medium" style={{ color: 'var(--text-primary)' }}>{searchTerm}</span>"
+                  </p>
+                  <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
+                    Intenta con otros términos de búsqueda
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-base mb-3" style={{ color: 'var(--text-secondary)' }}>No hay secretos aún</p>
+                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Sé el primero en compartir un secreto</p>
+                </>
+              )}
             </div>
           ) : (
             <div className="grid gap-4">
-              {secrets.map((secret) => (
+              {filteredSecrets.map((secret) => (
                 <div
                   key={secret.id}
                   onClick={() => handleSecretClick(secret.id)}
@@ -268,17 +328,14 @@ export default function Home() {
                             e.stopPropagation()
                             router.push(`/profiles/${secret.author}`)
                           }}
-                          className="text-xs hover:underline transition-colors duration-200"
-                          style={{ color: 'var(--text-secondary)' }}
+                          className="hover:underline transition-colors duration-200"
                         >
-                          por {secret.author}
+                          <UserDisplay username={secret.author} showPrefix={true} />
                         </button>
                       )}
                       
                       {secret.author === 'admin' && (
-                        <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                          por admin
-                        </span>
+                        <UserDisplay username={secret.author} showPrefix={true} />
                       )}
                       
                       <span className="text-xs" style={{ color: 'var(--text-tertiary)' }}>•</span>
