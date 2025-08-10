@@ -1,0 +1,303 @@
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { FiEye, FiHeart, FiMessageCircle, FiFlag, FiPlus } from 'react-icons/fi'
+import Layout from '../components/Layout'
+import LoginModal from '../components/LoginModal'
+import CreateSecretModal from '../components/CreateSecretModal'
+import Announcements from '../components/Announcements'
+import BanScreen from '../components/BanScreen'
+import ThreeJSLoader from '../components/ThreeJSLoader'
+import SEO from '../components/SEO'
+
+interface Secret {
+  id: string
+  title: string
+  content: string
+  author: string
+  authorAllowsMessages: boolean
+  createdAt: string
+  views: number
+  likes: number
+  comments: number
+  preview: string
+}
+
+export default function Home() {
+  const [secrets, setSecrets] = useState<Secret[]>([])
+  const [loading, setLoading] = useState(true)
+  const [showLogin, setShowLogin] = useState(false)
+  const [showCreateSecret, setShowCreateSecret] = useState(false)
+  const [user, setUser] = useState<string | null>(null)
+  const [showWelcome, setShowWelcome] = useState(true)
+  const [showBanScreen, setShowBanScreen] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    const token = Cookies.get('token')
+    if (token) {
+      setUser(Cookies.get('username') || null)
+      checkBanStatus()
+    }
+    
+    // Mostrar pantalla de bienvenida por 3 segundos
+    const welcomeTimer = setTimeout(() => {
+      setShowWelcome(false)
+      fetchSecrets()
+    }, 3000)
+
+    return () => clearTimeout(welcomeTimer)
+  }, [])
+
+  const fetchSecrets = async () => {
+    try {
+      const response = await axios.get('/api/secrets')
+      setSecrets(response.data)
+    } catch (error) {
+      console.error('Error fetching secrets:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const checkBanStatus = async () => {
+    try {
+      const token = Cookies.get('token')
+      if (!token) return
+
+      const response = await fetch('/api/announcements/ban-status', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.isBanned) {
+          setShowBanScreen(true)
+        }
+      }
+    } catch (error) {
+      console.error('Error checking ban status:', error)
+    }
+  }
+
+  const handleSecretClick = (secretId: string) => {
+    router.push(`/secret/${secretId}`)
+  }
+
+  const sendPrivateMessage = (e: React.MouseEvent, authorUsername: string) => {
+    e.stopPropagation() // Evitar que se active el click del secreto
+    
+    if (!user) {
+      setShowLogin(true)
+      return
+    }
+
+    if (authorUsername === user) {
+      alert('No puedes enviarte mensajes a ti mismo')
+      return
+    }
+
+    if (authorUsername === 'admin') {
+      alert('No puedes enviar mensajes al administrador')
+      return
+    }
+
+    router.push(`/messages?user=${authorUsername}`)
+  }
+
+  const handleCreateSecret = () => {
+    if (!user) {
+      setShowLogin(true)
+    } else {
+      setShowCreateSecret(true)
+    }
+  }
+
+  const handleLogin = (username: string) => {
+    setUser(username)
+    setShowLogin(false)
+  }
+
+  const handleLogout = () => {
+    Cookies.remove('token')
+    Cookies.remove('username')
+    setUser(null)
+  }
+
+  const handleSecretCreated = () => {
+    setShowCreateSecret(false)
+    fetchSecrets()
+  }
+
+  if (showWelcome) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
+        <div className="text-center px-8">
+          <div className="mb-8">
+            <div className="relative">
+                <ThreeJSLoader className="absolute inset-0 opacity-30" />
+                <div className="animate-emoji-bounce text-6xl mb-4 relative z-10">🤫</div>
+              </div>
+            <h1 className="text-4xl font-bold mb-4 animate-fade-in" style={{ color: 'var(--text-primary)' }}>
+              Bienvenido al nuevo TuSecreto
+            </h1>
+            <p className="text-xl animate-fade-in-delay" style={{ color: 'var(--text-secondary)' }}>
+              donde el anonimato es verdadero
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2" style={{ borderColor: 'var(--accent)' }}></div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (loading) {
+    return (
+      <Layout user={user} onLogin={() => setShowLogin(true)} onLogout={handleLogout}>
+        <div className="flex justify-center items-center min-h-[400px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+        </div>
+      </Layout>
+    )
+  }
+
+  // Si el usuario está baneado, mostrar SOLO la pantalla de ban
+  if (showBanScreen) {
+    return <BanScreen onClose={() => setShowBanScreen(false)} />
+  }
+
+  return (
+    <>
+      <SEO
+        title="TuSecreto - Secretos Anónimos y Privados"
+        description="Descubre y comparte secretos de forma 100% anónima. Plataforma segura sin emails ni datos personales. Únete a la comunidad más privada de secretos."
+        keywords="secretos anónimos, confesar secretos, plataforma privada, anonimato real, compartir secretos, comunidad anónima"
+        url="https://secretos.tusecreto.net"
+      />
+      <Layout user={user} onLogin={() => setShowLogin(true)} onLogout={handleLogout}>
+        <div className="max-w-5xl mx-auto px-3 sm:px-4 py-6">
+          {/* Anuncios */}
+          <Announcements className="mb-8" />
+          
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Secretos Recientes</h1>
+            <button
+              onClick={handleCreateSecret}
+              className="px-5 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105 flex items-center gap-2 group text-sm"
+              style={{
+                backgroundColor: 'var(--accent)',
+                color: 'var(--bg-primary)'
+              }}
+            >
+              <FiPlus size={20} className="group-hover:rotate-90 transition-transform duration-300" />
+              Compartir Secreto
+            </button>
+          </div>
+
+          {secrets.length === 0 ? (
+            <div className="text-center py-12 rounded-lg border transition-colors duration-300" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-primary)' }}>
+              <p className="text-base mb-3" style={{ color: 'var(--text-secondary)' }}>No hay secretos aún</p>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Sé el primero en compartir un secreto</p>
+            </div>
+          ) : (
+            <div className="grid gap-4">
+              {secrets.map((secret) => (
+                <div
+                  key={secret.id}
+                  onClick={() => handleSecretClick(secret.id)}
+                  className="rounded-lg p-4 border transition-all duration-300 cursor-pointer hover:scale-[1.01] hover:shadow-lg max-w-full overflow-hidden"
+                  style={{
+                    backgroundColor: 'var(--bg-secondary)',
+                    borderColor: 'var(--border-primary)'
+                  }}
+                >
+                  <h2 className="text-lg font-semibold mb-2 line-clamp-2 break-words" style={{ color: 'var(--text-primary)' }}>{secret.title}</h2>
+                  <p className="mb-3 line-clamp-3 break-words text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{secret.preview}</p>
+                  
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs" style={{ color: 'var(--text-tertiary)' }}>
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-1 transition-colors" style={{ color: 'var(--text-secondary)' }}>
+                        <FiEye size={14} className="animate-pulse" />
+                        {secret.views}
+                      </span>
+                      <span className="flex items-center gap-1 hover:text-red-400 transition-colors">
+                        <FiHeart size={14} className="hover:scale-110 transition-transform" />
+                        {secret.likes}
+                      </span>
+                      <span className="flex items-center gap-1 hover:text-blue-400 transition-colors">
+                        <FiMessageCircle size={14} className="hover:scale-110 transition-transform" />
+                        {secret.comments}
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center gap-3">
+                      {/* Botón de mensaje privado */}
+                      {user && secret.author !== 'admin' && secret.author !== user && secret.authorAllowsMessages && (
+                        <button
+                          onClick={(e) => sendPrivateMessage(e, secret.author)}
+                          className="px-3 py-1 rounded-md text-xs font-medium transition-all duration-200 hover:scale-105 flex items-center gap-1"
+                          style={{
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            color: '#3b82f6',
+                            border: '1px solid rgba(59, 130, 246, 0.2)'
+                          }}
+                        >
+                          <FiMessageCircle size={12} />
+                          Mensaje privado
+                        </button>
+                      )}
+                      
+                      {/* Enlace al perfil */}
+                      {secret.author !== 'admin' && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            router.push(`/profiles/${secret.author}`)
+                          }}
+                          className="text-xs hover:underline transition-colors duration-200"
+                          style={{ color: 'var(--text-secondary)' }}
+                        >
+                          por {secret.author}
+                        </button>
+                      )}
+                      
+                      {secret.author === 'admin' && (
+                        <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                          por admin
+                        </span>
+                      )}
+                      
+                      <span className="text-xs" style={{ color: 'var(--text-tertiary)' }}>•</span>
+                      <span className="text-xs whitespace-nowrap" style={{ color: 'var(--text-tertiary)' }}>
+                        {new Date(secret.createdAt).toLocaleDateString('es-ES')}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </Layout>
+
+      {showLogin && (
+        <LoginModal
+          onClose={() => setShowLogin(false)}
+          onLogin={handleLogin}
+        />
+      )}
+
+      {showCreateSecret && (
+        <CreateSecretModal
+          onClose={() => setShowCreateSecret(false)}
+          onSecretCreated={handleSecretCreated}
+        />
+      )}
+    </>
+  )
+}
