@@ -1,5 +1,8 @@
 import { GetServerSideProps } from 'next'
 
+// Required for Cloudflare Pages
+export const runtime = 'edge'
+
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const robotsTxt = `User-agent: *
 Allow: /

@@ -1,5 +1,8 @@
 import { GetServerSideProps } from 'next'
 
+// Required for Cloudflare Pages
+export const runtime = 'edge'
+
 function generateSiteMap() {
   const baseUrl = 'https://tusecreto.net'
   const currentDate = new Date().toISOString()
