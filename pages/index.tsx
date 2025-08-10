@@ -222,8 +222,7 @@ export default function Home() {
                 style={{
                   backgroundColor: 'var(--bg-secondary)',
                   borderColor: 'var(--border-primary)',
-                  color: 'var(--text-primary)',
-                  focusRingColor: 'var(--accent)'
+                  color: 'var(--text-primary)'
                 }}
               />
               {searchTerm && (
