@@ -35,7 +35,7 @@ const SEO: React.FC<SEOProps> = ({
   
   return (
     <Head>
-      {/* Primary Meta Tags */}
+      {/* Primary Meta Tags - Always ensure title exists */}
       <title>{fullTitle}</title>
       <meta name="title" content={fullTitle} />
       <meta name="description" content={description} />
