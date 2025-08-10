@@ -21,7 +21,7 @@ const nextConfig = {
     minimumCacheTTL: 60,
   },
   
-  // Headers for SEO, security and IP preservation
+  // Headers for SEO and security
   async headers() {
     return [
       {
@@ -45,7 +45,6 @@ const nextConfig = {
           },
         ],
       },
-
       {
         source: '/sitemap.xml',
         headers: [
@@ -75,7 +74,15 @@ const nextConfig = {
     ];
   },
   
-  // API rewrites removed - now handled by pages/api/[...proxy].ts
+  // API rewrites
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://belize-because-things-scroll.trycloudflare.com/api/:path*',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
