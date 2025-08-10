@@ -14,13 +14,18 @@ export default function Document() {
         <meta name="revisit-after" content="1 days" />
         <meta name="rating" content="general" />
         
-        {/* DNS Prefetch */}
+        {/* DNS Prefetch y Preconnect optimizados */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+        <link rel="dns-prefetch" href="//intranet-london-eventually-place.trycloudflare.com" />
         
         {/* Preconnect */}
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Resource hints */}
+        <link rel="prefetch" href="/api/secrets" />
+        <link rel="prefetch" href="/api/announcements" />
         
         {/* Icons and Manifest */}
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
@@ -43,11 +48,19 @@ export default function Document() {
         <meta httpEquiv="X-Frame-Options" content="DENY" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         
-        {/* Fonts */}
+        {/* Fonts - Optimized loading */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet"
+          media="print"
+          onLoad="this.media='all'"
         />
+        <noscript>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+          />
+        </noscript>
       </Head>
       <body className="bg-black text-white font-inter">
         <Main />

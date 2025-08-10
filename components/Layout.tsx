@@ -202,6 +202,8 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
               <button
                 onClick={toggleTheme}
                 className="relative p-3 rounded-xl transition-all duration-300 hover:scale-110 group overflow-hidden"
+                aria-label={theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
+                title={theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
                 style={{ 
                   backgroundColor: theme === 'dark' 
                     ? 'rgba(255, 255, 255, 0.1)' 
@@ -362,6 +364,8 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="relative p-3 rounded-xl transition-all duration-300 hover:scale-110 group overflow-hidden"
+                aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+                title={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
                 style={{ 
                   backgroundColor: theme === 'dark' 
                     ? 'rgba(255, 255, 255, 0.1)' 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Font loading optimized for performance */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,9 +8,9 @@
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
   --bg-tertiary: #e9ecef;
-  --text-primary: #000000;
-  --text-secondary: #6c757d;
-  --text-tertiary: #adb5bd;
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --text-tertiary: #6c757d;
   --border-primary: #dee2e6;
   --border-secondary: #e9ecef;
   --accent: #000000;
@@ -24,10 +24,10 @@
   --bg-secondary: #1a1a1a;
   --bg-tertiary: #333333;
   --text-primary: #ffffff;
-  --text-secondary: #666666;
-  --text-tertiary: #999999;
-  --border-primary: #333333;
-  --border-secondary: #1a1a1a;
+  --text-secondary: #a8a8a8;
+  --text-tertiary: #808080;
+  --border-primary: #404040;
+  --border-secondary: #2a2a2a;
   --accent: #ffffff;
   --accent-hover: #cccccc;
   --accent-primary: #ffffff;

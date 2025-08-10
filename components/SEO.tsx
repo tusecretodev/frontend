@@ -29,7 +29,9 @@ const SEO: React.FC<SEOProps> = ({
   structuredData,
   alternateLanguages
 }) => {
-  const fullTitle = title.includes('TuSecreto') ? title : `${title} | TuSecreto`
+  // Asegurar que siempre hay un título válido
+  const safeTitle = title || "TuSecreto - Plataforma Anónima para Compartir Secretos | Máxima Privacidad"
+  const fullTitle = safeTitle.includes('TuSecreto') ? safeTitle : `${safeTitle} | TuSecreto`
   
   return (
     <Head>

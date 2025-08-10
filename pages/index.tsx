@@ -273,6 +273,8 @@ export default function Home() {
                 <button
                   onClick={() => setSearchTerm('')}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center hover:scale-110 transition-transform"
+                  aria-label="Limpiar búsqueda"
+                  title="Limpiar búsqueda"
                 >
                   <FiX className="h-5 w-5" style={{ color: 'var(--text-tertiary)' }} />
                 </button>

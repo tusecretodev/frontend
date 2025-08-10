@@ -11,11 +11,49 @@ const nextConfig = {
   // Performance optimizations
   experimental: {
     optimizePackageImports: ['react-icons'],
+    optimizeCss: true,
+    optimizeServerReact: true,
   },
   
   // Compiler optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
+  },
+  
+  // Output optimizations
+  output: 'standalone',
+  
+  // Bundle analyzer for production builds
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      }
+    }
+    
+    // Optimize chunks
+    config.optimization = {
+      ...config.optimization,
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            priority: -10,
+            chunks: 'all',
+          },
+        },
+      },
+    }
+    
+    return config
   },
   
   // Image optimization
@@ -64,6 +102,14 @@ const nextConfig = {
           {
             key: 'X-Permitted-Cross-Domain-Policies',
             value: 'none',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://intranet-london-eventually-place.trycloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()',
           },
         ],
       },
