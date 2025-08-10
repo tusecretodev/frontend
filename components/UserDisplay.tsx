@@ -36,15 +36,8 @@ const UserDisplay: React.FC<UserDisplayProps> = ({
     if (!isAdmin) return {}
     
     return {
-      background: 'linear-gradient(45deg, #dc2626, #ef4444, #f87171)',
-      backgroundSize: '200% 200%',
-      animation: 'gradient-shift 3s ease infinite',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      backgroundClip: 'text',
-      fontWeight: 'bold',
-      textShadow: '0 0 10px rgba(220, 38, 38, 0.3)',
-      filter: 'drop-shadow(0 0 2px rgba(220, 38, 38, 0.5))'
+      color: '#dc2626',
+      fontWeight: 'bold'
     }
   }
 
@@ -53,46 +46,13 @@ const UserDisplay: React.FC<UserDisplayProps> = ({
   }
 
   return (
-    <>
-      <style jsx>{`
-        @keyframes gradient-shift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        
-        .admin-glow {
-          position: relative;
-        }
-        
-        .admin-glow::before {
-          content: '';
-          position: absolute;
-          top: -2px;
-          left: -2px;
-          right: -2px;
-          bottom: -2px;
-          background: linear-gradient(45deg, #dc2626, #ef4444, #f87171);
-          border-radius: 4px;
-          opacity: 0.3;
-          z-index: -1;
-          animation: pulse 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes pulse {
-          0% { opacity: 0.3; }
-          100% { opacity: 0.6; }
-        }
-      `}</style>
-      
-      <span 
-        className={`${getSizeClasses()} ${isAdmin ? 'admin-glow' : ''} ${className}`}
-        style={isAdmin ? getAdminStyles() : regularStyles}
-      >
-        {showPrefix && 'por '}
-        {isAdmin ? 'Admin' : username}
-      </span>
-    </>
+    <span 
+      className={`${getSizeClasses()} ${className}`}
+      style={isAdmin ? getAdminStyles() : regularStyles}
+    >
+      {showPrefix && 'por '}
+      {isAdmin ? 'Admin' : username}
+    </span>
   )
 }
 
