@@ -11,8 +11,6 @@ const nextConfig = {
   // Performance optimizations
   experimental: {
     optimizePackageImports: ['react-icons'],
-    optimizeCss: true,
-    optimizeServerReact: true,
   },
   
   // Compiler optimizations
@@ -20,8 +18,7 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   
-  // Output optimizations
-  output: 'standalone',
+
   
   // Bundle analyzer for production builds
   webpack: (config, { isServer }) => {
@@ -32,25 +29,9 @@ const nextConfig = {
       }
     }
     
-    // Optimize chunks
-    config.optimization = {
-      ...config.optimization,
-      splitChunks: {
-        chunks: 'all',
-        cacheGroups: {
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            priority: -10,
-            chunks: 'all',
-          },
-        },
-      },
+    // Fix for 'self is not defined' error
+    config.resolve.alias = {
+      ...config.resolve.alias,
     }
     
     return config

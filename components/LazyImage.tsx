@@ -20,15 +20,17 @@ const LazyImage: React.FC<LazyImageProps> = ({
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    let observer: IntersectionObserver
+    let observer: IntersectionObserver | null = null
     
-    if (imageRef && imageSrc === placeholder) {
+    if (imageRef && imageSrc === placeholder && typeof window !== 'undefined') {
       observer = new IntersectionObserver(
         entries => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               setImageSrc(src)
-              observer.unobserve(imageRef)
+              if (observer) {
+                observer.unobserve(imageRef)
+              }
             }
           })
         },
