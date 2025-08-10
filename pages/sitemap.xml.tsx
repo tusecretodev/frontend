@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 
-// Configure for Edge Runtime
-export const runtime = 'experimental-edge'
+// Configure for Edge Runtime - Required for Cloudflare Pages
+export const runtime = 'edge'
 
 function generateSiteMap() {
   const baseUrl = 'https://tusecreto.net'

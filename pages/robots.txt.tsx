@@ -1,5 +1,8 @@
 import { GetServerSideProps } from 'next'
 
+// Configure for Edge Runtime - Required for Cloudflare Pages
+export const runtime = 'edge'
+
 function generateRobotsTxt() {
   return `User-agent: *
 Allow: /
