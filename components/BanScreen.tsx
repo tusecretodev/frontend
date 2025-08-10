@@ -142,7 +142,7 @@ const BanScreen: React.FC<BanScreenProps> = ({ onClose }) => {
               Si crees que este baneo es un error, puedes apelar la decisión:
             </p>
             <a
-              href={banInfo.appealUrl || 'https://discord.gg/d4cKETRmcd'}
+              href={banInfo.appealUrl || 'https://discord.gg/wy5s5tkZ'}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"

@@ -555,8 +555,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                   color: '#ffffff'
                 }}
                 onClick={() => {
-                  // Discord link will be added later
-                  console.log('Discord link - to be implemented')
+                  window.open('https://discord.gg/wy5s5tkZ', '_blank')
                 }}
               >
                 {/* Gradient overlay on hover */}
@@ -581,61 +580,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                   <div className="absolute bottom-2 left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse delay-500"></div>
                 </div>
               </button>
-              
-              {/* Tor Button */}
-              <button
-                className="group relative flex items-center gap-3 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
-                style={{
-                  background: 'linear-gradient(135deg, #7D4CDB 0%, #5B2C87 100%)',
-                  color: '#ffffff'
-                }}
-                onClick={() => {
-                  // Tor domain link will be added later
-                  console.log('Tor domain - to be implemented')
-                }}
-              >
-                {/* Gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
-                {/* Tor Icon with custom styling */}
-                <div className="relative z-10 p-1 rounded-lg group-hover:scale-110 transition-transform duration-300">
-                  <div className="relative">
-                    {/* Custom Tor icon with rings */}
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" className="drop-shadow-lg">
-                      {/* Outer ring */}
-                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.6" />
-                      {/* Middle ring */}
-                      <circle cx="12" cy="12" r="7" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.8" />
-                      {/* Inner ring */}
-                      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" fill="none" />
-                      {/* Center dot */}
-                      <circle cx="12" cy="12" r="1.5" fill="currentColor" />
-                      {/* Connection lines */}
-                      <path d="M12 2 L12 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
-                      <path d="M12 18 L12 22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
-                      <path d="M2 12 L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
-                      <path d="M18 12 L22 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
-                    </svg>
-                    
-                    {/* Animated ring effect */}
-                    <div className="absolute inset-0 rounded-full border border-white opacity-0 group-hover:opacity-30 group-hover:scale-150 transition-all duration-500"></div>
-                  </div>
-                </div>
-                
-                <div className="relative z-10">
-                  <span className="font-semibold text-sm tracking-wide">Tor Network</span>
-                  <div className="text-xs opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    Máxima privacidad (próximamente)
-                  </div>
-                </div>
-                
-                {/* Animated background particles */}
-                <div className="absolute top-0 left-0 w-full h-full opacity-20">
-                  <div className="absolute top-2 right-1 w-1 h-1 bg-white rounded-full animate-pulse delay-100"></div>
-                  <div className="absolute bottom-1 left-2 w-0.5 h-0.5 bg-white rounded-full animate-pulse delay-700"></div>
-                  <div className="absolute top-1/2 right-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse delay-1000"></div>
-                </div>
-              </button>
+
             </div>
             
             <p className="pt-2">
