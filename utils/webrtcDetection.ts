@@ -74,7 +74,7 @@ export async function detectRealIP(): Promise<WebRTCResult> {
         resolve(result)
       })
 
-      function processIPs() {
+      const processIPs = () => {
         clearTimeout(timeout)
         
         const allIPs = Array.from(ips)
@@ -196,10 +196,12 @@ function getWebGLFingerprint(): string {
     
     if (!gl) return 'no-webgl'
     
-    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info')
+    // Cast to WebGLRenderingContext for TypeScript
+    const webgl = gl as WebGLRenderingContext
+    const debugInfo = webgl.getExtension('WEBGL_debug_renderer_info')
     if (debugInfo) {
-      const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)
-      const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+      const vendor = webgl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)
+      const renderer = webgl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
       return `${vendor}|${renderer}`.substring(0, 50)
     }
     
