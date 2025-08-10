@@ -178,11 +178,7 @@ export default function Terms() {
 
           <div className="rounded-lg p-6 mt-8 border" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-primary)' }}>
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              <strong style={{ color: 'var(--text-primary)' }}>Última actualización:</strong> {new Date().toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
+              <strong style={{ color: 'var(--text-primary)' }}>Última actualización:</strong> Agosto 2024
             </p>
             <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>
               <strong style={{ color: 'var(--text-primary)' }}>Jurisdicción:</strong> Leyes internacionales de privacidad

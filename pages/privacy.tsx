@@ -199,11 +199,7 @@ export default function Privacy() {
               <strong style={{ color: 'var(--text-primary)' }}>Jurisdicción:</strong> Leyes de privacidad suecas
             </p>
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              <strong style={{ color: 'var(--text-primary)' }}>Última actualización:</strong> {new Date().toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
+              <strong style={{ color: 'var(--text-primary)' }}>Última actualización:</strong> Agosto 2024
             </p>
           </div>
         </div>
