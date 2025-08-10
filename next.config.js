@@ -11,8 +11,6 @@ const nextConfig = {
   // Performance optimizations
   experimental: {
     optimizePackageImports: ['react-icons'],
-    runtime: 'experimental-edge',
-    allowMiddlewareResponseBody: true,
   },
   
   // Compiler optimizations
@@ -39,10 +37,7 @@ const nextConfig = {
     return config
   },
   
-  // Cloudflare Pages specific configuration
-  env: {
-    NEXT_RUNTIME: 'edge',
-  },
+
   
   // Image optimization
   images: {
