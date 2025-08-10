@@ -21,7 +21,7 @@ const nextConfig = {
     minimumCacheTTL: 60,
   },
   
-  // Headers for SEO and security
+  // Headers for SEO, security and IP preservation
   async headers() {
     return [
       {
@@ -45,6 +45,7 @@ const nextConfig = {
           },
         ],
       },
+
       {
         source: '/sitemap.xml',
         headers: [
