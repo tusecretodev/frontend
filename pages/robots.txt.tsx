@@ -1,5 +1,8 @@
 import { GetServerSideProps } from 'next'
 
+// Configure for Edge Runtime
+export const runtime = 'edge'
+
 function generateRobotsTxt() {
   return `User-agent: *
 Allow: /
