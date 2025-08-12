@@ -166,121 +166,147 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
       {/* Floating Header */}
       <header className="fixed top-2 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-6xl px-3 md:px-4 floating-header">
         <div 
-          className="backdrop-blur-xl rounded-2xl border shadow-2xl transition-all duration-500 hover:shadow-3xl hover-lift animate-float"
+          className="backdrop-blur-xl rounded-2xl border shadow-2xl transition-all duration-700 hover:shadow-4xl hover-lift animate-float group"
           style={{
             backgroundColor: theme === 'dark' 
-              ? 'rgba(0, 0, 0, 0.85)' 
-              : 'rgba(255, 255, 255, 0.95)',
+              ? 'rgba(0, 0, 0, 0.88)' 
+              : 'rgba(255, 255, 255, 0.97)',
             borderColor: theme === 'dark' 
-              ? 'rgba(255, 255, 255, 0.15)' 
-              : 'rgba(0, 0, 0, 0.12)',
+              ? 'rgba(255, 255, 255, 0.08)' 
+              : 'rgba(0, 0, 0, 0.06)',
             boxShadow: theme === 'dark'
-              ? '0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 32px rgba(0, 0, 0, 0.5)'
-              : '0 25px 50px -12px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.08), 0 8px 32px rgba(0, 0, 0, 0.15)'
+              ? '0 25px 50px -12px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.05), 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.04)'
+              : '0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.04), 0 8px 32px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+            background: theme === 'dark'
+              ? 'linear-gradient(135deg, rgba(0, 0, 0, 0.88) 0%, rgba(20, 20, 20, 0.85) 50%, rgba(0, 0, 0, 0.88) 100%)'
+              : 'linear-gradient(135deg, rgba(255, 255, 255, 0.97) 0%, rgba(250, 250, 250, 0.95) 50%, rgba(255, 255, 255, 0.97) 100%)'
           }}
         >
-          <div className="flex justify-between items-center px-4 py-3">
+          <div className="flex justify-between items-center px-5 py-3.5">
             <Link href="/" className="flex items-center group">
-              <div className="relative overflow-hidden rounded-xl p-2 transition-all duration-300 group-hover:scale-105">
+              <div className="relative overflow-hidden rounded-xl p-2.5 transition-all duration-300 group-hover:scale-105">
                 <Image 
                   src={theme === 'dark' ? "/tusecreto.png" : "/tusecreto-negro.png"} 
                   alt="TuSecreto" 
                   width={100} 
                   height={35} 
-                  className="h-7 w-auto transition-all duration-300"
+                  className="h-7 w-auto transition-all duration-300 group-hover:brightness-105"
                   priority={true}
                   quality={100}
                   placeholder="empty"
                   loading="eager"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl" style={{
+                  background: theme === 'dark' 
+                    ? 'radial-gradient(circle at center, rgba(255, 255, 255, 0.04) 0%, transparent 80%)'
+                    : 'radial-gradient(circle at center, rgba(0, 0, 0, 0.02) 0%, transparent 80%)'
+                }}></div>
               </div>
             </Link>
             
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-2.5">
+            <nav className="hidden md:flex items-center gap-1">
+              {/* Separador visual */}
+              <div className="h-8 w-px mx-2" style={{
+                background: theme === 'dark' 
+                  ? 'linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.2), transparent)'
+                  : 'linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.15), transparent)'
+              }}></div>
+              
               <button
                 onClick={toggleTheme}
-                className="relative p-3 rounded-xl transition-all duration-300 hover:scale-110 group overflow-hidden"
+                className="relative p-3 rounded-xl transition-all duration-300 hover:scale-105 group overflow-hidden"
                 aria-label={theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
                 title={theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
                 style={{ 
                   backgroundColor: theme === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.1)' 
-                    : 'rgba(0, 0, 0, 0.05)',
-                  color: 'var(--text-primary)'
+                    ? 'rgba(255, 255, 255, 0.12)' 
+                    : 'rgba(0, 0, 0, 0.08)',
+                  color: 'var(--text-primary)',
+                  border: `1px solid ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`
                 }}
               >
-                <div className="relative z-10">
+                <div className="relative z-10 transition-transform duration-300 group-hover:rotate-90">
                   {theme === 'dark' ? <FiSun size={18} /> : <FiMoon size={18} />}
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-orange-400/20 to-yellow-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/15 via-orange-400/10 to-yellow-600/15 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
               </button>
               
               {user ? (
                 <>
                   <Link
                     href="/messages"
-                    className="relative flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                    className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-102 hover:shadow-lg group overflow-hidden"
                     style={{
                       backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.1)' 
-                        : 'rgba(0, 0, 0, 0.04)',
+                        ? 'rgba(255, 255, 255, 0.12)' 
+                        : 'rgba(0, 0, 0, 0.06)',
                       borderColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.2)' 
-                        : 'rgba(0, 0, 0, 0.12)',
+                        ? 'rgba(255, 255, 255, 0.25)' 
+                        : 'rgba(0, 0, 0, 0.15)',
                       color: 'var(--text-secondary)'
                     }}
                   >
-                    <div className="p-1 rounded-lg" style={{
+                    <div className="p-1.5 rounded-lg transition-all duration-300 group-hover:scale-105" style={{
                       backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.1)' 
-                        : 'rgba(0, 0, 0, 0.1)'
+                        ? 'rgba(255, 255, 255, 0.15)' 
+                        : 'rgba(0, 0, 0, 0.12)',
+                      background: theme === 'dark'
+                        ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08))'
+                        : 'linear-gradient(135deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.06))'
                     }}>
-                      <FiMessageCircle size={14} />
+                      <FiMessageCircle size={14} className="transition-transform duration-300 group-hover:rotate-6" />
                     </div>
-                    <span className="font-medium text-sm">Mensajes</span>
+                    <span className="font-medium text-sm transition-all duration-300">Mensajes</span>
                     
                     {unreadCount > 0 && (
                       <div 
-                        className="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 rounded-full text-xs font-bold"
+                        className="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 rounded-full text-xs font-bold animate-pulse shadow-lg"
                         style={{
                           backgroundColor: '#ef4444',
-                          color: 'white'
+                          color: 'white',
+                          boxShadow: '0 0 8px rgba(239, 68, 68, 0.4)'
                         }}
                       >
                         {unreadCount > 99 ? '99+' : unreadCount}
                       </div>
                     )}
+                    
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
                   </Link>
                   
                   <Link
                     href="/profile"
-                    className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                    className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-102 hover:shadow-lg group overflow-hidden"
                     style={{
                       backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.1)' 
-                        : 'rgba(0, 0, 0, 0.04)',
+                        ? 'rgba(255, 255, 255, 0.12)' 
+                        : 'rgba(0, 0, 0, 0.06)',
                       borderColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.2)' 
-                        : 'rgba(0, 0, 0, 0.12)',
+                        ? 'rgba(255, 255, 255, 0.25)' 
+                        : 'rgba(0, 0, 0, 0.15)',
                       color: 'var(--text-secondary)'
                     }}
                   >
-                    <div className="p-1 rounded-lg" style={{
+                    <div className="p-1.5 rounded-lg transition-all duration-300 group-hover:scale-105" style={{
                       backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.1)' 
-                        : 'rgba(0, 0, 0, 0.1)'
+                        ? 'rgba(255, 255, 255, 0.15)' 
+                        : 'rgba(0, 0, 0, 0.12)',
+                      background: theme === 'dark'
+                        ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08))'
+                        : 'linear-gradient(135deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.06))'
                     }}>
                       <FiUser size={14} />
                     </div>
-                    <span className="font-medium text-sm">{user}</span>
+                    <span className="font-medium text-sm transition-all duration-300 relative z-10">{user}</span>
+                    
+                    <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-emerald-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
                   </Link>
                   
                   {user === 'admin' && (
                     <Link
                       href="/admin"
-                      className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-105 hover:shadow-lg group overflow-hidden"
+                      className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-102 hover:shadow-lg group overflow-hidden"
                       style={{
                         backgroundColor: theme === 'dark' 
                           ? 'rgba(139, 69, 19, 0.25)' 
@@ -288,20 +314,34 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                         borderColor: theme === 'dark' 
                           ? 'rgba(255, 193, 7, 0.4)' 
                           : 'rgba(255, 193, 7, 0.5)',
-                        color: theme === 'dark' ? '#fbbf24' : '#d97706'
+                        color: theme === 'dark' ? '#fbbf24' : '#d97706',
+                        boxShadow: theme === 'dark' 
+                          ? '0 0 10px rgba(255, 193, 7, 0.1)' 
+                          : '0 0 8px rgba(255, 193, 7, 0.08)'
                       }}
                     >
-                      <div className="relative z-10 flex items-center gap-2">
-                        <FiShield size={14} />
-                        <span className="font-medium text-sm">Admin</span>
+                      <div className="p-1.5 rounded-lg transition-all duration-300 group-hover:scale-105" style={{
+                        backgroundColor: 'rgba(255, 193, 7, 0.2)',
+                        background: 'linear-gradient(135deg, rgba(255, 193, 7, 0.25), rgba(255, 193, 7, 0.15))'
+                      }}>
+                        <FiShield size={14} className="transition-transform duration-300" />
                       </div>
-                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 via-orange-400/10 to-yellow-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+                      <span className="font-medium text-sm relative z-10 transition-all duration-300">Admin</span>
+                      
+                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/8 via-orange-400/6 to-yellow-400/8 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
                     </Link>
                   )}
                   
+                  {/* Separador visual */}
+                  <div className="h-8 w-px mx-2" style={{
+                    background: theme === 'dark' 
+                      ? 'linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.2), transparent)'
+                      : 'linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.15), transparent)'
+                  }}></div>
+                  
                   <button
                     onClick={onLogout}
-                    className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-105 hover:shadow-lg group overflow-hidden"
+                    className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-102 hover:shadow-lg group overflow-hidden"
                     style={{
                       backgroundColor: theme === 'dark' 
                         ? 'rgba(220, 38, 38, 0.15)' 
@@ -312,34 +352,50 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                       color: '#dc2626'
                     }}
                   >
-                    <div className="relative z-10 flex items-center gap-2">
-                      <FiLogOut size={14} />
-                      <span className="font-medium text-sm">Salir</span>
+                    <div className="p-1.5 rounded-lg transition-all duration-300 group-hover:scale-105" style={{
+                      backgroundColor: 'rgba(220, 38, 38, 0.2)',
+                      background: 'linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(220, 38, 38, 0.15))'
+                    }}>
+                      <FiLogOut size={14} className="transition-transform duration-300" />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-red-400/10 via-red-500/10 to-red-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+                    <span className="font-medium text-sm relative z-10 transition-all duration-300">Salir</span>
+                    
+                    <div className="absolute inset-0 bg-gradient-to-r from-red-400/6 via-red-500/4 to-red-400/6 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
                   </button>
                 </>
               ) : (
-                <button
-                  onClick={onLogin}
-                  className="relative overflow-hidden px-6 py-2.5 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl group border"
-                  style={{
-                    backgroundColor: theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.1)'
-                      : 'rgba(0, 0, 0, 0.05)',
-                    borderColor: theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.2)'
-                      : 'rgba(0, 0, 0, 0.15)',
-                    color: 'var(--text-primary)',
-                    boxShadow: theme === 'dark'
-                      ? '0 10px 25px -5px rgba(0, 0, 0, 0.3)'
-                      : '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
-                  }}
-                >
-                  <span className="relative z-10 text-sm font-semibold">Iniciar Sesión</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/20 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-xl"></div>
-                </button>
+                <>
+                  {/* Separador visual */}
+                  <div className="h-8 w-px mx-2" style={{
+                    background: theme === 'dark' 
+                      ? 'linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.2), transparent)'
+                      : 'linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.15), transparent)'
+                  }}></div>
+                  
+                  <button
+                    onClick={onLogin}
+                    className="relative overflow-hidden px-6 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-103 hover:shadow-xl group border"
+                    style={{
+                      backgroundColor: theme === 'dark'
+                        ? 'rgba(255, 255, 255, 0.12)'
+                        : 'rgba(0, 0, 0, 0.08)',
+                      borderColor: theme === 'dark'
+                        ? 'rgba(255, 255, 255, 0.25)'
+                        : 'rgba(0, 0, 0, 0.18)',
+                      color: 'var(--text-primary)',
+                      boxShadow: theme === 'dark'
+                        ? '0 8px 20px -5px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 255, 255, 0.08)'
+                        : '0 8px 20px -5px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04)',
+                      background: theme === 'dark'
+                        ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.08))'
+                        : 'linear-gradient(135deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.04))'
+                    }}
+                  >
+                    <span className="relative z-10 text-sm font-semibold transition-all duration-300">Iniciar Sesión</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/8 via-white/12 to-white/8 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-800 rounded-xl"></div>
+                  </button>
+                </>
               )}
             </nav>
             
