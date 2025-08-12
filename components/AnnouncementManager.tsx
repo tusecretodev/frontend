@@ -40,7 +40,7 @@ const AnnouncementManager: React.FC<AnnouncementManagerProps> = ({ className = '
   const fetchAnnouncements = async () => {
     try {
       const token = Cookies.get('token')
-      const response = await fetch('/api/admin/announcements', {
+      const response = await fetch('https://api.tusecreto.net/api/admin/announcements', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -63,7 +63,7 @@ const AnnouncementManager: React.FC<AnnouncementManagerProps> = ({ className = '
       const token = Cookies.get('token')
       const url = editingAnnouncement 
         ? `/api/admin/announcements/${editingAnnouncement.id}`
-        : '/api/admin/announcements'
+        : 'https://api.tusecreto.net/api/admin/announcements'
       
       const method = editingAnnouncement ? 'PUT' : 'POST'
       

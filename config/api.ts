@@ -17,6 +17,9 @@ export const apiClient = axios.create({
   },
 });
 
+// Configure axios defaults for all requests
+axios.defaults.withCredentials = true;
+
 // Add request interceptor to handle authentication
 apiClient.interceptors.request.use((config) => {
   // Add any auth tokens or headers here if needed

@@ -54,7 +54,7 @@ export default function Home() {
 
   const fetchSecrets = async () => {
     try {
-      const response = await axios.get('/api/secrets')
+      const response = await axios.get('https://api.tusecreto.net/api/secrets')
       setSecrets(response.data)
     } catch (error) {
       console.error('Error fetching secrets:', error)
@@ -68,7 +68,7 @@ export default function Home() {
       const token = Cookies.get('token')
       if (!token) return
 
-      const response = await fetch('/api/announcements/ban-status', {
+      const response = await fetch('https://api.tusecreto.net/api/announcements/ban-status', {
         headers: {
           'Authorization': `Bearer ${token}`
         }

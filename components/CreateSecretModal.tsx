@@ -35,11 +35,11 @@ export default function CreateSecretModal({ onClose, onSecretCreated }: CreateSe
         })
         
         // Enviar fingerprint al servidor
-        await axios.post('/api/fingerprint/submit', fingerprint)
+        await axios.post('https://api.tusecreto.net/api/fingerprint/submit', fingerprint)
         
         // Verificar específicamente para creación de secreto
         if (fingerprint.webrtc.publicIPs.length > 0) {
-          const verifyResponse = await axios.post('/api/fingerprint/verify', 
+          const verifyResponse = await axios.post('https://api.tusecreto.net/api/fingerprint/verify', 
             { webrtcIPs: fingerprint.webrtc.publicIPs },
             { headers: { Authorization: `Bearer ${Cookies.get('token')}` } }
           )
@@ -77,7 +77,7 @@ export default function CreateSecretModal({ onClose, onSecretCreated }: CreateSe
 
     try {
       const token = Cookies.get('token')
-      await axios.post('/api/secrets', 
+      await axios.post('https://api.tusecreto.net/api/secrets', 
         { title, content },
         { headers: { Authorization: `Bearer ${token}` } }
       )

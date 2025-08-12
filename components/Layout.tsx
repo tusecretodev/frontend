@@ -29,7 +29,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
       const token = Cookies.get('token')
       if (!token) return
 
-      const response = await fetch('/api/messages/unread-count', {
+      const response = await fetch('https://api.tusecreto.net/api/messages/unread-count', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -95,7 +95,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
         headers['Authorization'] = `Bearer ${token}`
       }
 
-      await fetch('/api/admin/log-email-copy', {
+      await fetch('https://api.tusecreto.net/api/admin/log-email-copy', {
         method: 'POST',
         headers,
         body: JSON.stringify(logData)

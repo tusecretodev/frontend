@@ -35,7 +35,7 @@ export default function IPLogsPanel() {
   const fetchIPLogs = async () => {
     try {
       const token = Cookies.get('token')
-      const response = await axios.get('/api/admin/ip-logs', {
+      const response = await axios.get('https://api.tusecreto.net/api/admin/ip-logs', {
         headers: { Authorization: `Bearer ${token}` }
       })
       setLogs(response.data)

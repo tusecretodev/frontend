@@ -82,7 +82,7 @@ export default function SecretPage() {
       const token = Cookies.get('token')
       if (!token) return
 
-      const response = await fetch('/api/announcements/ban-status', {
+      const response = await fetch('https://api.tusecreto.net/api/announcements/ban-status', {
         headers: {
           'Authorization': `Bearer ${token}`
         }

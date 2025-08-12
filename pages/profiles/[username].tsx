@@ -67,7 +67,7 @@ export default function UserProfile() {
       const token = Cookies.get('token')
       if (!token) return
 
-      const response = await fetch('/api/announcements/ban-status', {
+      const response = await fetch('https://api.tusecreto.net/api/announcements/ban-status', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -92,7 +92,7 @@ export default function UserProfile() {
         headers['Authorization'] = `Bearer ${token}`
       }
 
-      const response = await fetch(`/api/profiles/${username}`, { headers })
+      const response = await fetch(`https://api.tusecreto.net/api/profiles/${username}`, { headers })
 
       if (response.ok) {
         const data = await response.json()
@@ -116,7 +116,7 @@ export default function UserProfile() {
       const token = Cookies.get('token')
       if (!token) return
 
-      const response = await fetch('/api/profiles/settings', {
+      const response = await fetch('https://api.tusecreto.net/api/profiles/settings', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

@@ -61,7 +61,7 @@ export default function Messages() {
       const token = Cookies.get('token')
       if (!token) return
 
-      const response = await fetch('/api/announcements/ban-status', {
+      const response = await fetch('https://api.tusecreto.net/api/announcements/ban-status', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -83,7 +83,7 @@ export default function Messages() {
       const token = Cookies.get('token')
       if (!token) return
 
-      const response = await fetch('/api/messages/conversations', {
+      const response = await fetch('https://api.tusecreto.net/api/messages/conversations', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -152,7 +152,7 @@ export default function Messages() {
       const token = Cookies.get('token')
       if (!token) return
 
-      const response = await fetch('/api/messages/send', {
+      const response = await fetch('https://api.tusecreto.net/api/messages/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

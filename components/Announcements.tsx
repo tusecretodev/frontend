@@ -34,7 +34,7 @@ const Announcements: React.FC<AnnouncementsProps> = ({ className = '' }) => {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await fetch('/api/announcements')
+      const response = await fetch('https://api.tusecreto.net/api/announcements')
       if (response.ok) {
         const data = await response.json()
         setAnnouncements(data)

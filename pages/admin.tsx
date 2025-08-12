@@ -87,12 +87,12 @@ export default function AdminPanel() {
       const headers = { Authorization: `Bearer ${token}` }
       
       const [secretsRes, usersRes, reportsRes, messageReportsRes, emailLogsRes, statsRes] = await Promise.all([
-        axios.get('/api/admin/secrets', { headers }),
-        axios.get('/api/admin/users', { headers }),
-        axios.get('/api/admin/reports', { headers }),
-        axios.get('/api/admin/message-reports', { headers }),
-        axios.get('/api/admin/email-copy-logs', { headers }),
-        axios.get('/api/admin/stats', { headers })
+        axios.get('https://api.tusecreto.net/api/admin/secrets', { headers }),
+        axios.get('https://api.tusecreto.net/api/admin/users', { headers }),
+        axios.get('https://api.tusecreto.net/api/admin/reports', { headers }),
+        axios.get('https://api.tusecreto.net/api/admin/message-reports', { headers }),
+        axios.get('https://api.tusecreto.net/api/admin/email-copy-logs', { headers }),
+        axios.get('https://api.tusecreto.net/api/admin/stats', { headers })
       ])
       
       setSecrets(secretsRes.data)

@@ -22,7 +22,7 @@ export default function LoginModal({ onClose, onLogin }: LoginModalProps) {
     setError('')
 
     try {
-      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register'
+      const endpoint = isLogin ? 'https://api.tusecreto.net/api/auth/login' : 'https://api.tusecreto.net/api/auth/register'
       const response = await axios.post(endpoint, { username, password })
       
       Cookies.set('token', response.data.token, { expires: 7 })
