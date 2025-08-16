@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 import Layout from '../components/Layout'
 import BanScreen from '../components/BanScreen'
 import SEO from '../components/SEO'
-import { FiMessageCircle, FiSend, FiUser, FiSearch, FiAlertTriangle, FiTrash2, FiEye } from 'react-icons/fi'
+import { FiMessageCircle, FiSend, FiUser, FiSearch, FiAlertTriangle, FiEye, FiArrowLeft } from 'react-icons/fi'
 import { useTheme } from '../contexts/ThemeContext'
 
 interface Message {
@@ -270,7 +270,7 @@ export default function Messages() {
       <Layout user={user} onLogin={handleLogin} onLogout={handleLogout}>
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto" style={{ borderColor: 'var(--accent)' }}></div>
             <p className="mt-4" style={{ color: 'var(--text-secondary)' }}>Cargando mensajes...</p>
           </div>
         </div>
@@ -288,100 +288,164 @@ export default function Messages() {
         noindex={true}
       />
       <Layout user={user} onLogin={handleLogin} onLogout={handleLogout}>
-      <div className="min-h-screen pt-24 pb-8 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[80vh]">
-            
-            {/* Lista de conversaciones */}
-            <div 
-              className="rounded-2xl border p-6 overflow-hidden"
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          {/* Header */}
+          <div className="mb-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Mensajes</h1>
+                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Conversaciones privadas</p>
+              </div>
+              <button
+                onClick={() => setShowSearch(!showSearch)}
+                className="px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 border"
+                style={{
+                  backgroundColor: 'var(--bg-secondary)',
+                  borderColor: 'var(--border-primary)',
+                  color: 'var(--text-primary)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--bg-secondary)'
+                }}
+              >
+                <FiSearch className="w-4 h-4 mr-2 inline" />
+                Nuevo chat
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)]">
+            {/* Sidebar - Lista de conversaciones */}
+            <div className={`${selectedConversation ? 'hidden lg:block' : 'block'} rounded-lg border overflow-hidden`}
               style={{
-                backgroundColor: theme === 'dark' 
-                  ? 'rgba(0, 0, 0, 0.3)' 
-                  : 'rgba(255, 255, 255, 0.9)',
-                borderColor: theme === 'dark' 
-                  ? 'rgba(255, 255, 255, 0.1)' 
-                  : 'rgba(0, 0, 0, 0.1)'
+                backgroundColor: 'var(--bg-secondary)',
+                borderColor: 'var(--border-primary)'
               }}
             >
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                  Conversaciones
-                </h2>
-                <button
-                  onClick={() => setShowSearch(!showSearch)}
-                  className="p-2 rounded-lg transition-colors duration-200"
-                  style={{
-                    backgroundColor: theme === 'dark' 
-                      ? 'rgba(255, 255, 255, 0.1)' 
-                      : 'rgba(0, 0, 0, 0.05)',
-                    color: 'var(--text-primary)'
-                  }}
-                >
-                  <FiSearch size={16} />
-                </button>
-              </div>
+              <div className="flex flex-col h-full">
+                {/* Search Section */}
+                {showSearch && (
+                  <div className="p-4 border-b" style={{ borderColor: 'var(--border-primary)' }}>
+                    <div className="relative">
+                      <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" style={{ color: 'var(--text-tertiary)' }} />
+                      <input
+                        type="text"
+                        placeholder="Buscar usuarios..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2 rounded-md border transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        style={{
+                          backgroundColor: 'var(--bg-primary)',
+                          borderColor: 'var(--border-primary)',
+                          color: 'var(--text-primary)'
+                        }}
+                      />
+                    </div>
+                    
+                    {searchResults.length > 0 && (
+                      <div className="mt-3 rounded-md border shadow-sm max-h-48 overflow-y-auto"
+                        style={{
+                          backgroundColor: 'var(--bg-primary)',
+                          borderColor: 'var(--border-primary)'
+                        }}
+                      >
+                        {searchResults.map((searchUser) => (
+                          <button
+                            key={searchUser.username}
+                            onClick={() => startConversation(searchUser.username)}
+                            className="w-full p-3 text-left transition-colors duration-200 border-b last:border-b-0"
+                            style={{ borderColor: 'var(--border-primary)' }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)'
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.backgroundColor = 'transparent'
+                            }}
+                          >
+                            <div className="flex items-center space-x-3">
+                              <div className="w-8 h-8 rounded-full flex items-center justify-center"
+                                style={{ backgroundColor: 'var(--bg-tertiary)' }}
+                              >
+                                <FiUser className="w-4 h-4" style={{ color: 'var(--text-tertiary)' }} />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="font-medium truncate" style={{ color: 'var(--text-primary)' }}>{searchUser.username}</p>
+                                {searchUser.bio && (
+                                  <p className="text-xs truncate" style={{ color: 'var(--text-tertiary)' }}>{searchUser.bio}</p>
+                                )}
+                                {!searchUser.allowPrivateMessages && (
+                                  <p className="text-xs text-red-500">No acepta mensajes</p>
+                                )}
+                              </div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
 
-              {showSearch && (
-                <div className="mb-4">
-                  <input
-                    type="text"
-                    placeholder="Buscar usuarios..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg border transition-colors duration-200"
-                    style={{
-                      backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.05)' 
-                        : 'rgba(255, 255, 255, 0.8)',
-                      borderColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.1)' 
-                        : 'rgba(0, 0, 0, 0.1)',
-                      color: 'var(--text-primary)'
-                    }}
-                  />
-                  
-                  {searchResults.length > 0 && (
-                    <div 
-                      className="mt-2 rounded-lg border max-h-48 overflow-y-auto"
-                      style={{
-                        backgroundColor: theme === 'dark' 
-                          ? 'rgba(0, 0, 0, 0.5)' 
-                          : 'rgba(255, 255, 255, 0.95)',
-                        borderColor: theme === 'dark' 
-                          ? 'rgba(255, 255, 255, 0.1)' 
-                          : 'rgba(0, 0, 0, 0.1)'
-                      }}
-                    >
-                      {searchResults.map((searchUser) => (
+                {/* Conversations List */}
+                <div className="flex-1 overflow-y-auto">
+                  {conversations.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+                      <FiMessageCircle className="w-12 h-12 mb-4" style={{ color: 'var(--text-tertiary)' }} />
+                      <h3 className="text-lg font-medium mb-2" style={{ color: 'var(--text-primary)' }}>No hay conversaciones</h3>
+                      <p style={{ color: 'var(--text-secondary)' }}>Busca usuarios para empezar a chatear</p>
+                    </div>
+                  ) : (
+                    <div>
+                      {conversations.map((conversation) => (
                         <button
-                          key={searchUser.username}
-                          onClick={() => startConversation(searchUser.username)}
-                          className="w-full p-3 text-left hover:bg-opacity-50 transition-colors duration-200"
+                          key={conversation.user}
+                          onClick={() => {
+                            setSelectedConversation(conversation.user)
+                            fetchMessages(conversation.user)
+                          }}
+                          className="w-full p-4 text-left transition-colors duration-200 border-b"
                           style={{
-                            backgroundColor: 'transparent',
-                            color: 'var(--text-primary)'
+                            borderColor: 'var(--border-primary)',
+                            backgroundColor: selectedConversation === conversation.user 
+                              ? (theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)')
+                              : 'transparent'
+                          }}
+                          onMouseEnter={(e) => {
+                            if (selectedConversation !== conversation.user) {
+                              e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.01)'
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (selectedConversation !== conversation.user) {
+                              e.currentTarget.style.backgroundColor = 'transparent'
+                            }
                           }}
                         >
-                          <div className="flex items-center gap-3">
-                            <div 
-                              className="w-8 h-8 rounded-full flex items-center justify-center"
-                              style={{
-                                backgroundColor: theme === 'dark' 
-                                  ? 'rgba(255, 255, 255, 0.1)' 
-                                  : 'rgba(0, 0, 0, 0.1)'
-                              }}
+                          <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                              style={{ backgroundColor: 'var(--bg-tertiary)' }}
                             >
-                              <FiUser size={14} />
+                              <FiUser className="w-5 h-5" style={{ color: 'var(--text-tertiary)' }} />
                             </div>
-                            <div>
-                              <p className="font-medium">{searchUser.username}</p>
-                              {searchUser.bio && (
-                                <p className="text-xs opacity-60">{searchUser.bio}</p>
-                              )}
-                              {!searchUser.allowPrivateMessages && (
-                                <p className="text-xs text-red-500">No acepta mensajes</p>
-                              )}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <p className="font-medium truncate" style={{ color: 'var(--text-primary)' }}>{conversation.user}</p>
+                                <div className="flex items-center space-x-2">
+                                  <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
+                                    {new Date(conversation.lastMessage.createdAt).toLocaleDateString()}
+                                  </p>
+                                  {conversation.unreadCount > 0 && (
+                                    <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-red-500 rounded-full">
+                                      {conversation.unreadCount}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              <p className="text-sm truncate mt-1" style={{ color: 'var(--text-secondary)' }}>
+                                {conversation.lastMessage.content}
+                              </p>
                             </div>
                           </div>
                         </button>
@@ -389,119 +453,47 @@ export default function Messages() {
                     </div>
                   )}
                 </div>
-              )}
-
-              <div className="space-y-2 overflow-y-auto">
-                {conversations.length === 0 ? (
-                  <div className="text-center py-8">
-                    <FiMessageCircle size={48} className="mx-auto mb-4 opacity-30" />
-                    <p style={{ color: 'var(--text-secondary)' }}>No tienes conversaciones aún</p>
-                    <p className="text-sm opacity-60">Busca usuarios para empezar a chatear</p>
-                  </div>
-                ) : (
-                  conversations.map((conversation) => (
-                    <button
-                      key={conversation.user}
-                      onClick={() => {
-                        setSelectedConversation(conversation.user)
-                        fetchMessages(conversation.user)
-                      }}
-                      className={`w-full p-4 rounded-lg text-left transition-all duration-200 ${
-                        selectedConversation === conversation.user 
-                          ? 'ring-2 ring-blue-500' 
-                          : ''
-                      }`}
-                      style={{
-                        backgroundColor: selectedConversation === conversation.user
-                          ? theme === 'dark' 
-                            ? 'rgba(59, 130, 246, 0.1)' 
-                            : 'rgba(59, 130, 246, 0.05)'
-                          : theme === 'dark' 
-                            ? 'rgba(255, 255, 255, 0.05)' 
-                            : 'rgba(0, 0, 0, 0.02)',
-                        color: 'var(--text-primary)'
-                      }}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div 
-                            className="w-10 h-10 rounded-full flex items-center justify-center"
-                            style={{
-                              backgroundColor: theme === 'dark' 
-                                ? 'rgba(255, 255, 255, 0.1)' 
-                                : 'rgba(0, 0, 0, 0.1)'
-                            }}
-                          >
-                            <FiUser size={16} />
-                          </div>
-                          <div className="flex-1">
-                            <p className="font-medium">{conversation.user}</p>
-                            <p className="text-sm opacity-60 truncate">
-                              {conversation.lastMessage.content}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-xs opacity-60">
-                            {new Date(conversation.lastMessage.createdAt).toLocaleDateString()}
-                          </p>
-                          {conversation.unreadCount > 0 && (
-                            <span 
-                              className="inline-block w-5 h-5 rounded-full text-xs font-bold text-white text-center leading-5"
-                              style={{ backgroundColor: '#ef4444' }}
-                            >
-                              {conversation.unreadCount}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </button>
-                  ))
-                )}
               </div>
             </div>
 
-            {/* Área de chat */}
-            <div 
-              className="lg:col-span-2 rounded-2xl border overflow-hidden flex flex-col"
+            {/* Chat Area */}
+            <div className={`${!selectedConversation ? 'hidden lg:flex' : 'flex'} lg:col-span-2 flex-col rounded-lg border overflow-hidden`}
               style={{
-                backgroundColor: theme === 'dark' 
-                  ? 'rgba(0, 0, 0, 0.3)' 
-                  : 'rgba(255, 255, 255, 0.9)',
-                borderColor: theme === 'dark' 
-                  ? 'rgba(255, 255, 255, 0.1)' 
-                  : 'rgba(0, 0, 0, 0.1)'
+                backgroundColor: 'var(--bg-secondary)',
+                borderColor: 'var(--border-primary)'
               }}
             >
               {selectedConversation ? (
                 <>
-                  {/* Header del chat */}
-                  <div 
-                    className="p-4 border-b"
-                    style={{
-                      borderColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.1)' 
-                        : 'rgba(0, 0, 0, 0.1)'
-                    }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div 
-                        className="w-10 h-10 rounded-full flex items-center justify-center"
-                        style={{
-                          backgroundColor: theme === 'dark' 
-                            ? 'rgba(255, 255, 255, 0.1)' 
-                            : 'rgba(0, 0, 0, 0.1)'
+                  {/* Chat Header */}
+                  <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: 'var(--border-primary)' }}>
+                    <div className="flex items-center space-x-3">
+                      <button
+                        onClick={() => setSelectedConversation(null)}
+                        className="lg:hidden p-2 rounded-md transition-colors duration-200"
+                        style={{ color: 'var(--text-secondary)' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'transparent'
                         }}
                       >
-                        <FiUser size={16} />
+                        <FiArrowLeft className="w-5 h-5" />
+                      </button>
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center"
+                        style={{ backgroundColor: 'var(--bg-tertiary)' }}
+                      >
+                        <FiUser className="w-5 h-5" style={{ color: 'var(--text-tertiary)' }} />
                       </div>
                       <div>
-                        <h3 className="font-bold" style={{ color: 'var(--text-primary)' }}>
+                        <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>
                           {selectedConversation}
                         </h3>
                         <button
                           onClick={() => router.push(`/profiles/${selectedConversation}`)}
-                          className="text-sm opacity-60 hover:opacity-100 transition-opacity"
+                          className="text-sm hover:underline transition-colors duration-200"
+                          style={{ color: 'var(--text-secondary)' }}
                         >
                           Ver perfil
                         </button>
@@ -509,7 +501,7 @@ export default function Messages() {
                     </div>
                   </div>
 
-                  {/* Mensajes */}
+                  {/* Messages */}
                   <div className="flex-1 overflow-y-auto p-4 space-y-4">
                     {messages.map((message) => (
                       <div
@@ -522,10 +514,12 @@ export default function Messages() {
                           className={`max-w-[70%] p-3 rounded-lg relative group ${
                             message.sender === user
                               ? 'bg-blue-500 text-white'
-                              : theme === 'dark'
-                                ? 'bg-gray-700 text-white'
-                                : 'bg-gray-100 text-black'
+                              : ''
                           }`}
+                          style={message.sender !== user ? {
+                            backgroundColor: 'var(--bg-tertiary)',
+                            color: 'var(--text-primary)'
+                          } : {}}
                         >
                           <p className="break-words">{message.content}</p>
                           <p 
@@ -559,14 +553,7 @@ export default function Messages() {
                   </div>
 
                   {/* Input para nuevo mensaje */}
-                  <div 
-                    className="p-4 border-t"
-                    style={{
-                      borderColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.1)' 
-                        : 'rgba(0, 0, 0, 0.1)'
-                    }}
-                  >
+                  <div className="p-4 border-t" style={{ borderColor: 'var(--border-primary)' }}>
                     <div className="flex gap-2">
                       <input
                         type="text"
@@ -575,14 +562,10 @@ export default function Messages() {
                         onChange={(e) => setNewMessage(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
                         maxLength={500}
-                        className="flex-1 px-4 py-2 rounded-lg border transition-colors duration-200"
+                        className="flex-1 px-4 py-2 rounded-lg border transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         style={{
-                          backgroundColor: theme === 'dark' 
-                            ? 'rgba(255, 255, 255, 0.05)' 
-                            : 'rgba(255, 255, 255, 0.8)',
-                          borderColor: theme === 'dark' 
-                            ? 'rgba(255, 255, 255, 0.1)' 
-                            : 'rgba(0, 0, 0, 0.1)',
+                          backgroundColor: 'var(--bg-primary)',
+                          borderColor: 'var(--border-primary)',
                           color: 'var(--text-primary)'
                         }}
                       />
@@ -594,7 +577,7 @@ export default function Messages() {
                         <FiSend size={16} />
                       </button>
                     </div>
-                    <p className="text-xs opacity-60 mt-1">
+                    <p className="text-xs mt-1" style={{ color: 'var(--text-tertiary)' }}>
                       {newMessage.length}/500 caracteres
                     </p>
                   </div>
@@ -602,7 +585,7 @@ export default function Messages() {
               ) : (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
-                    <FiMessageCircle size={64} className="mx-auto mb-4 opacity-30" />
+                    <FiMessageCircle size={64} className="mx-auto mb-4" style={{ color: 'var(--text-tertiary)' }} />
                     <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
                       Selecciona una conversación
                     </h3>
@@ -615,8 +598,7 @@ export default function Messages() {
             </div>
           </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
     </>
   )
 }

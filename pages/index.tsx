@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { FiEye, FiHeart, FiMessageCircle, FiFlag, FiPlus, FiSearch, FiX } from 'react-icons/fi'
@@ -9,6 +10,7 @@ import CreateSecretModal from '../components/CreateSecretModal'
 import Announcements from '../components/Announcements'
 import BanScreen from '../components/BanScreen'
 import UserDisplay from '../components/UserDisplay'
+import { useTheme } from '../contexts/ThemeContext'
 // import ThreeJSLoader from '../components/ThreeJSLoader' // Removido para reducir bundle size
 import SEO from '../components/SEO'
 
@@ -26,6 +28,7 @@ interface Secret {
 }
 
 export default function Home() {
+  const { theme } = useTheme()
   const [secrets, setSecrets] = useState<Secret[]>([])
   const [loading, setLoading] = useState(true)
   const [showLogin, setShowLogin] = useState(false)
@@ -148,31 +151,75 @@ export default function Home() {
 
   if (showWelcome) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
-        <div className="text-center px-8">
-          <div className="mb-8">
-            <div className="relative">
-                <div className="absolute inset-0 opacity-30 flex items-center justify-center">
-                  <div className="hexagon-loader">
-                    <div className="hexagon"></div>
-                    <div className="hexagon"></div>
-                    <div className="hexagon"></div>
-                    <div className="hexagon"></div>
-                    <div className="hexagon"></div>
-                    <div className="hexagon"></div>
+      <div className="fixed inset-0 z-50 aws-loading-screen" style={{ backgroundColor: 'var(--bg-primary)' }}>
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-30"></div>
+        
+        {/* Main content */}
+        <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
+          <div className="text-center max-w-md mx-auto">
+            
+            {/* Logo container with subtle glow */}
+            <div className="mb-12 relative">
+              <div className="logo-wrapper">
+                <div className="logo-glow-bg"></div>
+                <Image 
+                  src={theme === 'dark' ? "/tusecreto.png" : "/tusecreto-negro.png"} 
+                  alt="TuSecreto" 
+                  width={120} 
+                  height={42} 
+                  className="h-12 w-auto mx-auto logo-image"
+                  priority={true}
+                  quality={100}
+                />
+              </div>
+            </div>
+
+            {/* Welcome text */}
+            <div className="mb-10">
+              <h1 className="text-2xl font-semibold mb-3 welcome-title" style={{ color: 'var(--text-primary)' }}>
+                Bienvenido a TuSecreto
+              </h1>
+              <p className="text-base welcome-subtitle" style={{ color: 'var(--text-secondary)' }}>
+                Plataforma segura para secretos anónimos
+              </p>
+            </div>
+
+            {/* AWS-style loading */}
+            <div className="loading-section">
+              {/* Progress bar */}
+              <div className="mb-6">
+                <div className="progress-container">
+                  <div className="progress-bar">
+                    <div className="progress-fill"></div>
                   </div>
                 </div>
-                <div className="animate-emoji-bounce text-6xl mb-4 relative z-10">🤫</div>
               </div>
-            <h1 className="text-4xl font-bold mb-4 animate-fade-in" style={{ color: 'var(--text-primary)' }}>
-              Bienvenido al nuevo TuSecreto
-            </h1>
-            <p className="text-xl animate-fade-in-delay" style={{ color: 'var(--text-secondary)' }}>
-              donde el anonimato es verdadero
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2" style={{ borderColor: 'var(--accent)' }}></div>
+
+              {/* Loading dots */}
+              <div className="flex items-center justify-center space-x-1 mb-4">
+                <div className="loading-dot"></div>
+                <div className="loading-dot"></div>
+                <div className="loading-dot"></div>
+              </div>
+
+              {/* Status text */}
+              <p className="text-sm status-text" style={{ color: 'var(--text-tertiary)' }}>
+                Inicializando aplicación...
+              </p>
+            </div>
+
+            {/* Security badge */}
+            <div className="mt-8">
+              <div className="security-badge">
+                <div className="flex items-center justify-center space-x-2">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-xs font-medium">Conexión segura</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -107,43 +107,150 @@ a {
 
 
 
-/* Floating navbar effects */
-.backdrop-blur-xl {
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+/* Simple navbar effects */
+.backdrop-blur-sm {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-.shadow-3xl {
-  box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.3);
+/* AWS-style Loading Screen */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Glassmorphism effect */
-.glass-effect {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.glass-effect-dark {
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Smooth animations */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
+@keyframes progressFill {
+  0% {
+    width: 0%;
+  }
+  20% {
+    width: 25%;
   }
   50% {
-    transform: translateY(-2px);
+    width: 60%;
+  }
+  80% {
+    width: 85%;
+  }
+  100% {
+    width: 100%;
   }
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
+@keyframes dotPulse {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes logoGlow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.aws-loading-screen {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.dark .bg-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+.logo-wrapper {
+  position: relative;
+  display: inline-block;
+  padding: 1rem;
+}
+
+.logo-glow-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  border-radius: 12px;
+  animation: logoGlow 3s ease-in-out infinite;
+}
+
+.logo-image {
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
+}
+
+.welcome-title {
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.welcome-subtitle {
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+  font-weight: 400;
+}
+
+.loading-section {
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.progress-container {
+  width: 240px;
+  margin: 0 auto;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.dark .progress-bar {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border-radius: 2px;
+  animation: progressFill 3s ease-out forwards;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s ease-in-out infinite;
 }
 
 @keyframes shimmer {
@@ -155,146 +262,50 @@ a {
   }
 }
 
-.animate-shimmer {
-  animation: shimmer 2s ease-in-out infinite;
-}
-
-/* Enhanced hover effects */
-.hover-lift {
-  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.hover-lift:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
-}
-
-/* Subtle scale effects */
-.hover\:scale-102:hover {
-  transform: scale(1.02);
-}
-
-.hover\:scale-103:hover {
-  transform: scale(1.03);
-}
-
-/* Enhanced shadow effects for navbar */
-.shadow-4xl {
-  box-shadow: 0 40px 80px -12px rgba(0, 0, 0, 0.4);
-}
-
-/* Magnetic hover effect for buttons */
-@keyframes magnetic-pull {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
-  100% {
-    transform: scale(1.05);
-  }
-}
-
-.magnetic-hover:hover {
-  animation: magnetic-pull 0.3s ease-out forwards;
-}
-
-/* Breathing animation for navbar */
-@keyframes breathe {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.005);
-    opacity: 0.98;
-  }
-}
-
-.animate-breathe {
-  animation: breathe 4s ease-in-out infinite;
-}
-
-/* Glow effects */
-.glow-on-hover {
-  transition: all 0.5s ease;
-}
-
-.glow-on-hover:hover {
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
-}
-
-/* Ripple effect */
-@keyframes ripple {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-.ripple-effect {
-  position: relative;
-  overflow: hidden;
-}
-
-.ripple-effect::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
+.loading-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--text-tertiary);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
+  animation: dotPulse 1.4s ease-in-out infinite;
 }
 
-.ripple-effect:hover::before {
-  width: 300px;
-  height: 300px;
-  opacity: 0;
+.loading-dot:nth-child(1) {
+  animation-delay: -0.32s;
 }
 
-/* Smooth gradient animations */
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+.loading-dot:nth-child(2) {
+  animation-delay: -0.16s;
 }
 
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 3s ease infinite;
+.loading-dot:nth-child(3) {
+  animation-delay: 0s;
 }
 
-/* Mobile menu animations */
-@keyframes slideInFromTop {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.status-text {
+  animation: fadeInUp 0.8s ease-out 0.8s both;
+  font-weight: 500;
 }
 
-.animate-in {
-  animation: slideInFromTop 0.3s ease-out;
+.security-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 6px;
+  color: #059669;
+  animation: fadeInUp 0.8s ease-out 1s both;
+  backdrop-filter: blur(8px);
 }
 
-.slide-in-from-top-2 {
-  animation: slideInFromTop 0.3s ease-out;
+.dark .security-badge {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #10b981;
 }
+
+/* Simple animations */
 
 /* Welcome screen animations */
 @keyframes fade-in {
@@ -348,25 +359,6 @@ a {
 }
 
 /* Mobile responsive improvements */
-@media (max-width: 768px) {
-  .floating-header {
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    transform: none;
-    max-width: none;
-  }
-}
-  
-  .mobile-menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 40;
-  }
 
 
 /* Hexagon Loader */
@@ -434,11 +426,6 @@ a {
 
 /* Disable animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .animate-float,
-  .hover-lift,
-  .animate-shimmer,
-  .animate-in,
-  .slide-in-from-top-2,
   .hexagon {
     animation: none;
   }

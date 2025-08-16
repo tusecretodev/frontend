@@ -27,15 +27,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/privacy": [
+    "/messages": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/privacy.js"
+      "static/chunks/pages/messages.js"
     ],
-    "/secret/[id]": [
+    "/profiles/[username]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/secret/[id].js"
+      "static/chunks/pages/profiles/[username].js"
     ]
   },
   "ampFirstPages": []

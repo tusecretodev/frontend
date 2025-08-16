@@ -3,7 +3,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { FiUser, FiLogOut, FiShield, FiSun, FiMoon, FiMenu, FiX, FiMessageCircle } from 'react-icons/fi'
 import { SiDiscord } from 'react-icons/si'
-import { FiGlobe } from 'react-icons/fi'
 import { useTheme } from '../contexts/ThemeContext'
 import Cookies from 'js-cookie'
 
@@ -51,10 +50,10 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
     }
 
     fetchUnreadCount()
-    
+
     // Actualizar cada 30 segundos
     const interval = setInterval(fetchUnreadCount, 30000)
-    
+
     return () => clearInterval(interval)
   }, [user])
 
@@ -63,7 +62,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
     try {
       const token = Cookies.get('token')
       const username = Cookies.get('username')
-      
+
       // Preparar datos para el log
       const logData = {
         action: 'support_email_copied',
@@ -89,7 +88,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
       const headers: any = {
         'Content-Type': 'application/json'
       }
-      
+
       // Agregar token si existe
       if (token) {
         headers['Authorization'] = `Bearer ${token}`
@@ -100,7 +99,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
         headers,
         body: JSON.stringify(logData)
       })
-      
+
       console.log('📧 Email copy logged successfully')
     } catch (error) {
       console.error('Error logging email copy:', error)
@@ -111,7 +110,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
   const showWarning = async () => {
     // Registrar el evento antes de mostrar la advertencia
     await logEmailCopy()
-    
+
     setShowWarningModal(true)
     setTimeout(() => {
       setShowWarningModal(false)
@@ -121,7 +120,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
   // Función para manejar clic en email de soporte
   const handleSupportEmailClick = () => {
     const email = 'soporte@tusecreto.net'
-    
+
     // Copiar al portapapeles
     navigator.clipboard.writeText(email).then(() => {
       showWarning()
@@ -136,11 +135,11 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
     const handleCopy = (e: ClipboardEvent) => {
       const selection = window.getSelection()
       const selectedText = selection?.toString().trim()
-      
+
       // Si el texto seleccionado contiene el email de soporte
       if (selectedText && selectedText.includes('soporte@tusecreto.net')) {
         e.preventDefault()
-        
+
         // Copiar el email limpio al portapapeles
         navigator.clipboard.writeText('soporte@tusecreto.net').then(() => {
           showWarning()
@@ -152,417 +151,268 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
 
     // Agregar event listener para detectar copia
     document.addEventListener('copy', handleCopy)
-    
+
     // Cleanup
     return () => {
       document.removeEventListener('copy', handleCopy)
     }
   }, [])
-  
+
   return (
     <div className="min-h-screen transition-colors duration-300" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
 
-      
-      {/* Floating Header */}
-      <header className="fixed top-2 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-6xl px-3 md:px-4 floating-header">
-        <div 
-          className="backdrop-blur-xl rounded-2xl border shadow-2xl transition-all duration-700 hover:shadow-4xl hover-lift animate-float group"
-          style={{
-            backgroundColor: theme === 'dark' 
-              ? 'rgba(0, 0, 0, 0.88)' 
-              : 'rgba(255, 255, 255, 0.97)',
-            borderColor: theme === 'dark' 
-              ? 'rgba(255, 255, 255, 0.08)' 
-              : 'rgba(0, 0, 0, 0.06)',
-            boxShadow: theme === 'dark'
-              ? '0 25px 50px -12px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.05), 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.04)'
-              : '0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.04), 0 8px 32px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
-            background: theme === 'dark'
-              ? 'linear-gradient(135deg, rgba(0, 0, 0, 0.88) 0%, rgba(20, 20, 20, 0.85) 50%, rgba(0, 0, 0, 0.88) 100%)'
-              : 'linear-gradient(135deg, rgba(255, 255, 255, 0.97) 0%, rgba(250, 250, 250, 0.95) 50%, rgba(255, 255, 255, 0.97) 100%)'
-          }}
-        >
-          <div className="flex justify-between items-center px-5 py-3.5">
-            <Link href="/" className="flex items-center group">
-              <div className="relative overflow-hidden rounded-xl p-2.5 transition-all duration-300 group-hover:scale-105">
-                <Image 
-                  src={theme === 'dark' ? "/tusecreto.png" : "/tusecreto-negro.png"} 
-                  alt="TuSecreto" 
-                  width={100} 
-                  height={35} 
-                  className="h-7 w-auto transition-all duration-300 group-hover:brightness-105"
-                  priority={true}
-                  quality={100}
-                  placeholder="empty"
-                  loading="eager"
-                />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl" style={{
-                  background: theme === 'dark' 
-                    ? 'radial-gradient(circle at center, rgba(255, 255, 255, 0.04) 0%, transparent 80%)'
-                    : 'radial-gradient(circle at center, rgba(0, 0, 0, 0.02) 0%, transparent 80%)'
-                }}></div>
-              </div>
+
+      {/* Simple Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-sm"
+        style={{
+          backgroundColor: theme === 'dark'
+            ? 'rgba(0, 0, 0, 0.95)'
+            : 'rgba(255, 255, 255, 0.95)',
+          borderColor: theme === 'dark'
+            ? 'rgba(255, 255, 255, 0.1)'
+            : 'rgba(0, 0, 0, 0.1)'
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <Link href="/" className="flex items-center">
+              <Image
+                src={theme === 'dark' ? "/tusecreto.png" : "/tusecreto-negro.png"}
+                alt="TuSecreto"
+                width={100}
+                height={35}
+                className="h-8 w-auto"
+                priority={true}
+                quality={100}
+              />
             </Link>
-            
+
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-1">
-              {/* Separador visual */}
-              <div className="h-8 w-px mx-2" style={{
-                background: theme === 'dark' 
-                  ? 'linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.2), transparent)'
-                  : 'linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.15), transparent)'
-              }}></div>
-              
+            <nav className="hidden md:flex items-center space-x-4">
               <button
                 onClick={toggleTheme}
-                className="relative p-3 rounded-xl transition-all duration-300 hover:scale-105 group overflow-hidden"
+                className="p-2 rounded-md transition-colors duration-200"
                 aria-label={theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
-                title={theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
-                style={{ 
-                  backgroundColor: theme === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.12)' 
-                    : 'rgba(0, 0, 0, 0.08)',
+                style={{
                   color: 'var(--text-primary)',
-                  border: `1px solid ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`
+                  ':hover': {
+                    backgroundColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
+                  }
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent'
                 }}
               >
-                <div className="relative z-10 transition-transform duration-300 group-hover:rotate-90">
-                  {theme === 'dark' ? <FiSun size={18} /> : <FiMoon size={18} />}
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/15 via-orange-400/10 to-yellow-600/15 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
+                {theme === 'dark' ? <FiSun size={18} /> : <FiMoon size={18} />}
               </button>
-              
+
               {user ? (
                 <>
                   <Link
                     href="/messages"
-                    className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-102 hover:shadow-lg group overflow-hidden"
-                    style={{
-                      backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.12)' 
-                        : 'rgba(0, 0, 0, 0.06)',
-                      borderColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.25)' 
-                        : 'rgba(0, 0, 0, 0.15)',
-                      color: 'var(--text-secondary)'
+                    className="relative flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                    style={{ color: 'var(--text-primary)' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent'
                     }}
                   >
-                    <div className="p-1.5 rounded-lg transition-all duration-300 group-hover:scale-105" style={{
-                      backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.15)' 
-                        : 'rgba(0, 0, 0, 0.12)',
-                      background: theme === 'dark'
-                        ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08))'
-                        : 'linear-gradient(135deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.06))'
-                    }}>
-                      <FiMessageCircle size={14} className="transition-transform duration-300 group-hover:rotate-6" />
-                    </div>
-                    <span className="font-medium text-sm transition-all duration-300">Mensajes</span>
-                    
+                    <FiMessageCircle size={16} />
+                    <span>Mensajes</span>
                     {unreadCount > 0 && (
-                      <div 
-                        className="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 rounded-full text-xs font-bold animate-pulse shadow-lg"
-                        style={{
-                          backgroundColor: '#ef4444',
-                          color: 'white',
-                          boxShadow: '0 0 8px rgba(239, 68, 68, 0.4)'
-                        }}
-                      >
+                      <span className="ml-1 bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] text-center">
                         {unreadCount > 99 ? '99+' : unreadCount}
-                      </div>
+                      </span>
                     )}
-                    
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
                   </Link>
-                  
+
                   <Link
                     href="/profile"
-                    className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-102 hover:shadow-lg group overflow-hidden"
-                    style={{
-                      backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.12)' 
-                        : 'rgba(0, 0, 0, 0.06)',
-                      borderColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.25)' 
-                        : 'rgba(0, 0, 0, 0.15)',
-                      color: 'var(--text-secondary)'
+                    className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                    style={{ color: 'var(--text-primary)' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent'
                     }}
                   >
-                    <div className="p-1.5 rounded-lg transition-all duration-300 group-hover:scale-105" style={{
-                      backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.15)' 
-                        : 'rgba(0, 0, 0, 0.12)',
-                      background: theme === 'dark'
-                        ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08))'
-                        : 'linear-gradient(135deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.06))'
-                    }}>
-                      <FiUser size={14} />
-                    </div>
-                    <span className="font-medium text-sm transition-all duration-300 relative z-10">{user}</span>
-                    
-                    <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-emerald-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
+                    <FiUser size={16} />
+                    <span>{user}</span>
                   </Link>
-                  
+
                   {user === 'admin' && (
                     <Link
                       href="/admin"
-                      className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-102 hover:shadow-lg group overflow-hidden"
-                      style={{
-                        backgroundColor: theme === 'dark' 
-                          ? 'rgba(139, 69, 19, 0.25)' 
-                          : 'rgba(255, 193, 7, 0.12)',
-                        borderColor: theme === 'dark' 
-                          ? 'rgba(255, 193, 7, 0.4)' 
-                          : 'rgba(255, 193, 7, 0.5)',
-                        color: theme === 'dark' ? '#fbbf24' : '#d97706',
-                        boxShadow: theme === 'dark' 
-                          ? '0 0 10px rgba(255, 193, 7, 0.1)' 
-                          : '0 0 8px rgba(255, 193, 7, 0.08)'
+                      className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                      style={{ color: theme === 'dark' ? '#fbbf24' : '#d97706' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(251, 191, 36, 0.1)' : 'rgba(217, 119, 6, 0.1)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent'
                       }}
                     >
-                      <div className="p-1.5 rounded-lg transition-all duration-300 group-hover:scale-105" style={{
-                        backgroundColor: 'rgba(255, 193, 7, 0.2)',
-                        background: 'linear-gradient(135deg, rgba(255, 193, 7, 0.25), rgba(255, 193, 7, 0.15))'
-                      }}>
-                        <FiShield size={14} className="transition-transform duration-300" />
-                      </div>
-                      <span className="font-medium text-sm relative z-10 transition-all duration-300">Admin</span>
-                      
-                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/8 via-orange-400/6 to-yellow-400/8 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
+                      <FiShield size={16} />
+                      <span>Admin</span>
                     </Link>
                   )}
-                  
-                  {/* Separador visual */}
-                  <div className="h-8 w-px mx-2" style={{
-                    background: theme === 'dark' 
-                      ? 'linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.2), transparent)'
-                      : 'linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.15), transparent)'
-                  }}></div>
-                  
+
+                  <div className="h-6 w-px bg-gray-200 dark:bg-gray-700"></div>
+
                   <button
                     onClick={onLogout}
-                    className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-102 hover:shadow-lg group overflow-hidden"
-                    style={{
-                      backgroundColor: theme === 'dark' 
-                        ? 'rgba(220, 38, 38, 0.15)' 
-                        : 'rgba(220, 38, 38, 0.08)',
-                      borderColor: theme === 'dark' 
-                        ? 'rgba(220, 38, 38, 0.4)' 
-                        : 'rgba(220, 38, 38, 0.25)',
-                      color: '#dc2626'
+                    className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                    style={{ color: theme === 'dark' ? '#f87171' : '#dc2626' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(248, 113, 113, 0.1)' : 'rgba(220, 38, 38, 0.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent'
                     }}
                   >
-                    <div className="p-1.5 rounded-lg transition-all duration-300 group-hover:scale-105" style={{
-                      backgroundColor: 'rgba(220, 38, 38, 0.2)',
-                      background: 'linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(220, 38, 38, 0.15))'
-                    }}>
-                      <FiLogOut size={14} className="transition-transform duration-300" />
-                    </div>
-                    <span className="font-medium text-sm relative z-10 transition-all duration-300">Salir</span>
-                    
-                    <div className="absolute inset-0 bg-gradient-to-r from-red-400/6 via-red-500/4 to-red-400/6 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
+                    <FiLogOut size={16} />
+                    <span>Salir</span>
                   </button>
                 </>
               ) : (
-                <>
-                  {/* Separador visual */}
-                  <div className="h-8 w-px mx-2" style={{
-                    background: theme === 'dark' 
-                      ? 'linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.2), transparent)'
-                      : 'linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.15), transparent)'
-                  }}></div>
-                  
-                  <button
-                    onClick={onLogin}
-                    className="relative overflow-hidden px-6 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-103 hover:shadow-xl group border"
-                    style={{
-                      backgroundColor: theme === 'dark'
-                        ? 'rgba(255, 255, 255, 0.12)'
-                        : 'rgba(0, 0, 0, 0.08)',
-                      borderColor: theme === 'dark'
-                        ? 'rgba(255, 255, 255, 0.25)'
-                        : 'rgba(0, 0, 0, 0.18)',
-                      color: 'var(--text-primary)',
-                      boxShadow: theme === 'dark'
-                        ? '0 8px 20px -5px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 255, 255, 0.08)'
-                        : '0 8px 20px -5px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04)',
-                      background: theme === 'dark'
-                        ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.08))'
-                        : 'linear-gradient(135deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.04))'
-                    }}
-                  >
-                    <span className="relative z-10 text-sm font-semibold transition-all duration-300">Iniciar Sesión</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/8 via-white/12 to-white/8 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-800 rounded-xl"></div>
-                  </button>
-                </>
+                <button
+                  onClick={onLogin}
+                  className="px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#ffffff' : '#000000',
+                    color: theme === 'dark' ? '#000000' : '#ffffff'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#e5e5e5' : '#374151'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#ffffff' : '#000000'
+                  }}
+                >
+                  Iniciar Sesión
+                </button>
               )}
             </nav>
-            
+
             {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center gap-3">
+            <div className="md:hidden flex items-center space-x-2">
               <button
                 onClick={toggleTheme}
-                className="relative p-3 rounded-xl transition-all duration-300 hover:scale-110 group overflow-hidden"
-                style={{ 
-                  backgroundColor: theme === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.1)' 
-                    : 'rgba(0, 0, 0, 0.05)',
-                  color: 'var(--text-primary)'
+                className="p-2 rounded-md transition-colors duration-200"
+                style={{ color: 'var(--text-primary)' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent'
                 }}
               >
-                <div className="relative z-10">
-                  {theme === 'dark' ? <FiSun size={18} /> : <FiMoon size={18} />}
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-orange-400/20 to-yellow-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+                {theme === 'dark' ? <FiSun size={18} /> : <FiMoon size={18} />}
               </button>
-              
+
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="relative p-3 rounded-xl transition-all duration-300 hover:scale-110 group overflow-hidden"
+                className="p-2 rounded-md transition-colors duration-200"
                 aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
-                title={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
-                style={{ 
-                  backgroundColor: theme === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.1)' 
-                    : 'rgba(0, 0, 0, 0.05)',
-                  color: 'var(--text-primary)'
+                style={{ color: 'var(--text-primary)' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent'
                 }}
               >
-                <div className="relative z-10">
-                  {mobileMenuOpen ? <FiX size={18} /> : <FiMenu size={18} />}
-                </div>
+                {mobileMenuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
               </button>
             </div>
           </div>
         </div>
-        
+
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div 
-            className="md:hidden mt-4 rounded-2xl border backdrop-blur-xl transition-all duration-300 animate-in slide-in-from-top-2"
-            style={{
-              backgroundColor: theme === 'dark' 
-                ? 'rgba(0, 0, 0, 0.9)' 
-                : 'rgba(255, 255, 255, 0.95)',
-              borderColor: theme === 'dark' 
-                ? 'rgba(255, 255, 255, 0.1)' 
-                : 'rgba(0, 0, 0, 0.1)'
-            }}
-          >
-            <div className="p-6 space-y-4">
+          <div className="md:hidden border-t" style={{ borderColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)' }}>
+            <div className="px-4 py-3 space-y-1">
               {user ? (
                 <>
                   <Link
                     href="/messages"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="relative flex items-center gap-3 p-4 rounded-xl transition-all duration-300 hover:scale-105"
-                    style={{
-                      backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.08)' 
-                        : 'rgba(0, 0, 0, 0.03)',
-                      color: 'var(--text-primary)'
+                    className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                    style={{ color: 'var(--text-primary)' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent'
                     }}
                   >
-                    <div className="p-2 rounded-lg" style={{
-                      backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.1)' 
-                        : 'rgba(0, 0, 0, 0.1)'
-                    }}>
-                      <FiMessageCircle size={18} />
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-medium">Mensajes</div>
-                      <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                        {unreadCount > 0 ? `${unreadCount} mensajes no leídos` : 'Ver conversaciones'}
-                      </div>
-                    </div>
-                    
+                    <FiMessageCircle size={18} />
+                    <span>Mensajes</span>
                     {unreadCount > 0 && (
-                      <div 
-                        className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold"
-                        style={{
-                          backgroundColor: '#ef4444',
-                          color: 'white'
-                        }}
-                      >
+                      <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] text-center">
                         {unreadCount > 99 ? '99+' : unreadCount}
-                      </div>
+                      </span>
                     )}
                   </Link>
-                  
+
                   <Link
                     href="/profile"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 p-4 rounded-xl transition-all duration-300 hover:scale-105"
-                    style={{
-                      backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.08)' 
-                        : 'rgba(0, 0, 0, 0.03)',
-                      color: 'var(--text-primary)'
+                    className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                    style={{ color: 'var(--text-primary)' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent'
                     }}
                   >
-                    <div className="p-2 rounded-lg" style={{
-                      backgroundColor: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.1)' 
-                        : 'rgba(0, 0, 0, 0.1)'
-                    }}>
-                      <FiUser size={18} />
-                    </div>
-                    <div>
-                      <div className="font-medium">{user}</div>
-                      <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Ver perfil</div>
-                    </div>
+                    <FiUser size={18} />
+                    <span>{user}</span>
                   </Link>
-                  
+
                   {user === 'admin' && (
                     <Link
                       href="/admin"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 p-4 rounded-xl transition-all duration-300 hover:scale-105"
-                      style={{
-                        backgroundColor: theme === 'dark' 
-                          ? 'rgba(139, 69, 19, 0.2)' 
-                          : 'rgba(255, 193, 7, 0.1)',
-                        color: theme === 'dark' ? '#fbbf24' : '#d97706'
+                      className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                      style={{ color: theme === 'dark' ? '#fbbf24' : '#d97706' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(251, 191, 36, 0.1)' : 'rgba(217, 119, 6, 0.1)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent'
                       }}
                     >
-                      <div className="p-2 rounded-lg" style={{
-                        backgroundColor: theme === 'dark' 
-                          ? 'rgba(255, 193, 7, 0.2)' 
-                          : 'rgba(255, 193, 7, 0.2)'
-                      }}>
-                        <FiShield size={18} />
-                      </div>
-                      <div>
-                        <div className="font-medium">Panel Admin</div>
-                        <div className="text-sm opacity-80">Administrar contenido</div>
-                      </div>
+                      <FiShield size={18} />
+                      <span>Panel Admin</span>
                     </Link>
                   )}
-                  
+
+                  <hr className="my-2 border-gray-200 dark:border-gray-700" />
+
                   <button
                     onClick={() => {
                       onLogout()
                       setMobileMenuOpen(false)
                     }}
-                    className="flex items-center gap-3 p-4 rounded-xl transition-all duration-300 hover:scale-105 w-full text-left"
-                    style={{
-                      backgroundColor: theme === 'dark' 
-                        ? 'rgba(220, 38, 38, 0.1)' 
-                        : 'rgba(220, 38, 38, 0.05)',
-                      color: '#dc2626'
+                    className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 w-full text-left"
+                    style={{ color: theme === 'dark' ? '#f87171' : '#dc2626' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(248, 113, 113, 0.1)' : 'rgba(220, 38, 38, 0.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent'
                     }}
                   >
-                    <div className="p-2 rounded-lg" style={{
-                      backgroundColor: 'rgba(220, 38, 38, 0.1)'
-                    }}>
-                      <FiLogOut size={18} />
-                    </div>
-                    <div>
-                      <div className="font-medium">Cerrar Sesión</div>
-                      <div className="text-sm opacity-80">Salir de tu cuenta</div>
-                    </div>
+                    <FiLogOut size={18} />
+                    <span>Cerrar Sesión</span>
                   </button>
                 </>
               ) : (
@@ -571,21 +421,19 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                     onLogin()
                     setMobileMenuOpen(false)
                   }}
-                  className="w-full p-4 rounded-xl font-medium transition-all duration-300 hover:scale-105 border"
+                  className="w-full px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
                   style={{
-                    backgroundColor: theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.1)'
-                      : 'rgba(0, 0, 0, 0.05)',
-                    borderColor: theme === 'dark'
-                      ? 'rgba(255, 255, 255, 0.2)'
-                      : 'rgba(0, 0, 0, 0.15)',
-                    color: 'var(--text-primary)'
+                    backgroundColor: theme === 'dark' ? '#ffffff' : '#000000',
+                    color: theme === 'dark' ? '#000000' : '#ffffff'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#e5e5e5' : '#374151'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#ffffff' : '#000000'
                   }}
                 >
-                  <div className="text-center">
-                    <div className="font-semibold">Iniciar Sesión</div>
-                    <div className="text-sm opacity-90">Accede a tu cuenta</div>
-                  </div>
+                  Iniciar Sesión
                 </button>
               )}
             </div>
@@ -594,7 +442,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 min-h-screen pt-24">
+      <main className="pt-16">
         {children}
       </main>
 
@@ -605,7 +453,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
             <p>
               TuSecreto está hosteado en servidores especializados en anonimato y privacidad.
             </p>
-            
+
             <div className="flex justify-center items-center gap-4">
               {/* Discord Button */}
               <button
@@ -620,19 +468,19 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
               >
                 {/* Gradient overlay on hover */}
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
+
                 {/* Discord Icon with glow effect */}
                 <div className="relative z-10 p-1 rounded-lg group-hover:scale-110 transition-transform duration-300">
                   <SiDiscord size={22} className="drop-shadow-lg" />
                 </div>
-                
+
                 <div className="relative z-10">
                   <span className="font-semibold text-sm tracking-wide">Discord</span>
                   <div className="text-xs opacity-80 group-hover:opacity-100 transition-opacity duration-300">
                     Únete a la comunidad
                   </div>
                 </div>
-                
+
                 {/* Animated background particles */}
                 <div className="absolute top-0 left-0 w-full h-full opacity-20">
                   <div className="absolute top-1 left-1 w-1 h-1 bg-white rounded-full animate-pulse"></div>
@@ -642,7 +490,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
               </button>
 
             </div>
-            
+
             <p className="pt-2">
               <Link href="/terms" className="hover:underline transition-all duration-300" style={{ color: 'var(--text-primary)' }}>
                 Términos y Condiciones
@@ -652,7 +500,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                 Política de Privacidad
               </Link>
             </p>
-            
+
             <div className="pt-4 border-t" style={{ borderColor: 'var(--border-primary)' }}>
               <p className="text-xs mb-3" style={{ color: 'var(--text-tertiary)' }}>
                 Para reportes y soporte técnico:
@@ -661,7 +509,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                 <button
                   onClick={handleSupportEmailClick}
                   className="group relative px-4 py-2 rounded-lg border transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                  style={{ 
+                  style={{
                     backgroundColor: 'var(--bg-secondary)',
                     borderColor: 'var(--border-primary)',
                     color: 'var(--text-primary)'
@@ -679,11 +527,11 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  
+
                   {/* Hover effect overlay */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
                 </button>
-                
+
                 <p className="text-xs mt-2 opacity-70" style={{ color: 'var(--text-tertiary)' }}>
                   Haz clic o selecciona para copiar
                 </p>
@@ -696,17 +544,17 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
       {/* Modal de Advertencia */}
       {showWarningModal && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[99999] p-4">
-          <div 
+          <div
             className="rounded-xl p-6 max-w-lg w-full border shadow-2xl"
-            style={{ 
-              backgroundColor: 'var(--bg-primary)', 
+            style={{
+              backgroundColor: 'var(--bg-primary)',
               borderColor: 'var(--border-primary)',
               boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
             }}
           >
             <div className="text-center">
               <div className="mb-4">
-                <div 
+                <div
                   className="w-12 h-12 rounded-full flex items-center justify-center mx-auto"
                   style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)' }}
                 >
@@ -715,11 +563,11 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                   </svg>
                 </div>
               </div>
-              
+
               <h3 className="text-lg font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>
                 Email copiado - Advertencia Legal
               </h3>
-              
+
               <div className="text-sm leading-relaxed mb-6" style={{ color: 'var(--text-secondary)' }}>
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-left">
                   <p className="font-medium text-red-800 dark:text-red-300">
@@ -730,7 +578,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                   </p>
                 </div>
               </div>
-              
+
               <button
                 onClick={() => setShowWarningModal(false)}
                 className="px-6 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105"
