@@ -194,10 +194,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                 className="p-2 rounded-md transition-colors duration-200"
                 aria-label={theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
                 style={{
-                  color: 'var(--text-primary)',
-                  ':hover': {
-                    backgroundColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
-                  }
+                  color: 'var(--text-primary)'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
