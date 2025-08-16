@@ -6,7 +6,6 @@ import { SiDiscord } from 'react-icons/si'
 import { useTheme } from '../contexts/ThemeContext'
 import Cookies from 'js-cookie'
 
-
 interface LayoutProps {
   children: ReactNode
   user: string | null
@@ -160,8 +159,6 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
 
   return (
     <div className="min-h-screen transition-colors duration-300" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
-
-
       {/* Simple Header */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-sm"
         style={{
@@ -193,9 +190,7 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                 onClick={toggleTheme}
                 className="p-2 rounded-md transition-colors duration-200"
                 aria-label={theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
-                style={{
-                  color: 'var(--text-primary)'
-                }}
+                style={{ color: 'var(--text-primary)' }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
                 }}
@@ -485,7 +480,6 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
                   <div className="absolute bottom-2 left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse delay-500"></div>
                 </div>
               </button>
-
             </div>
 
             <p className="pt-2">
