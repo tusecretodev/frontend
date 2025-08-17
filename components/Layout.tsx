@@ -438,95 +438,78 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
         {children}
       </main>
 
-      {/* Footer */}
+      {/* Footer - AWS Style */}
       <footer className="border-t mt-auto transition-colors duration-300" style={{ backgroundColor: 'var(--bg-primary)', borderColor: 'var(--border-primary)' }}>
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          <div className="text-center text-sm space-y-4" style={{ color: 'var(--text-secondary)' }}>
-            <p>
-              TuSecreto está hosteado en servidores especializados en anonimato y privacidad.
-            </p>
-
-            <div className="flex justify-center items-center gap-4">
-              {/* Discord Button */}
-              <button
-                className="group relative flex items-center gap-3 px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
-                style={{
-                  background: 'linear-gradient(135deg, #5865F2 0%, #4752C4 100%)',
-                  color: '#ffffff'
-                }}
-                onClick={() => {
-                  window.open('https://discord.gg/wy5s5tkZ', '_blank')
-                }}
-              >
-                {/* Gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                {/* Discord Icon with glow effect */}
-                <div className="relative z-10 p-1 rounded-lg group-hover:scale-110 transition-transform duration-300">
-                  <SiDiscord size={22} className="drop-shadow-lg" />
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          {/* Main Footer Content */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {/* Brand Section */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--accent-primary)' }}>
+                  <FiShield className="w-5 h-5" style={{ color: 'var(--text-on-accent)' }} />
                 </div>
-
-                <div className="relative z-10">
-                  <span className="font-semibold text-sm tracking-wide">Discord</span>
-                  <div className="text-xs opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    Únete a la comunidad
-                  </div>
-                </div>
-
-                {/* Animated background particles */}
-                <div className="absolute top-0 left-0 w-full h-full opacity-20">
-                  <div className="absolute top-1 left-1 w-1 h-1 bg-white rounded-full animate-pulse"></div>
-                  <div className="absolute top-3 right-2 w-0.5 h-0.5 bg-white rounded-full animate-pulse delay-300"></div>
-                  <div className="absolute bottom-2 left-3 w-0.5 h-0.5 bg-white rounded-full animate-pulse delay-500"></div>
-                </div>
-              </button>
+                <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>TuSecreto</h3>
+              </div>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Plataforma anónima para compartir secretos con máxima privacidad. Hosteado en servidores especializados en anonimato.
+              </p>
             </div>
 
-            <p className="pt-2">
-              <Link href="/terms" className="hover:underline transition-all duration-300" style={{ color: 'var(--text-primary)' }}>
-                Términos y Condiciones
-              </Link>
-              {' • '}
-              <Link href="/privacy" className="hover:underline transition-all duration-300" style={{ color: 'var(--text-primary)' }}>
-                Política de Privacidad
-              </Link>
-            </p>
+            {/* Links Section */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'var(--text-primary)' }}>Legal</h4>
+              <div className="space-y-2">
+                <Link href="/terms" className="block text-sm transition-colors duration-200 hover:underline" style={{ color: 'var(--text-secondary)' }}>
+                  Términos y Condiciones
+                </Link>
+                <Link href="/privacy" className="block text-sm transition-colors duration-200 hover:underline" style={{ color: 'var(--text-secondary)' }}>
+                  Política de Privacidad
+                </Link>
+              </div>
+            </div>
 
-            <div className="pt-4 border-t" style={{ borderColor: 'var(--border-primary)' }}>
-              <p className="text-xs mb-3" style={{ color: 'var(--text-tertiary)' }}>
-                Para reportes y soporte técnico:
-              </p>
-              <div className="inline-block">
+            {/* Community & Support */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'var(--text-primary)' }}>Comunidad</h4>
+              <div className="space-y-3">
+                {/* Discord Link */}
+                <button
+                  onClick={() => window.open('https://discord.gg/wy5s5tkZ', '_blank')}
+                  className="flex items-center gap-3 text-sm transition-all duration-200 hover:translate-x-1"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  <SiDiscord className="w-4 h-4" style={{ color: '#5865F2' }} />
+                  Únete a Discord
+                </button>
+                
+                {/* Support Email */}
                 <button
                   onClick={handleSupportEmailClick}
-                  className="group relative px-4 py-2 rounded-lg border transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                  style={{
-                    backgroundColor: 'var(--bg-secondary)',
-                    borderColor: 'var(--border-primary)',
-                    color: 'var(--text-primary)'
-                  }}
+                  className="flex items-center gap-3 text-sm transition-all duration-200 hover:translate-x-1"
+                  style={{ color: 'var(--text-secondary)' }}
                   title="Haz clic para copiar el email"
                 >
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    <span className="font-mono text-sm font-medium select-all">
-                      soporte@tusecreto.net
-                    </span>
-                    <svg className="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-
-                  {/* Hover effect overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span className="font-mono">soporte@tusecreto.net</span>
                 </button>
-
-                <p className="text-xs mt-2 opacity-70" style={{ color: 'var(--text-tertiary)' }}>
-                  Haz clic o selecciona para copiar
-                </p>
               </div>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4" style={{ borderColor: 'var(--border-primary)' }}>
+            <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--text-tertiary)' }}>
+              <span>© 2025 TuSecreto</span>
+              <span>•</span>
+              <span>Máxima Privacidad</span>
+            </div>
+            
+            <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-tertiary)' }}>
+              <FiShield className="w-3 h-3" />
+              <span>Plataforma 100% Anónima</span>
             </div>
           </div>
         </div>

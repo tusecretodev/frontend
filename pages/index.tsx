@@ -245,8 +245,8 @@ export default function Home() {
     <>
       <SEO
         title="TuSecreto - Secretos Anónimos y Privados | Máxima Privacidad 2024"
-        description="🔒 Descubre y comparte secretos 100% anónimos. Sin emails, sin registro, sin rastreo. Hosting seguro en Suecia. La comunidad más privada de secretos. ¡Gratis y sin límites!"
-        keywords="secretos anónimos, confesar secretos, plataforma privada, anonimato real, compartir secretos, comunidad anónima, secretos online, confesiones privadas, privacidad digital, hosting Suecia, sin registro, gratis"
+        description="🔒 Descubre y comparte secretos 100% anónimos. Sin emails, sin registro, sin rastreo. La comunidad más privada de secretos. ¡Gratis y sin límites!"
+        keywords="secretos anónimos, confesar secretos, plataforma privada, anonimato real, compartir secretos, comunidad anónima, secretos online, confesiones privadas, privacidad digital, sin registro, gratis"
         url="https://tusecreto.net"
         structuredData={{
           "@context": "https://schema.org",
@@ -286,7 +286,7 @@ export default function Home() {
               "Compartir secretos anónimos",
               "100% privacidad garantizada",
               "Sin registro requerido",
-              "Hosting en Suecia",
+              "Máxima Privacidad",
               "Comunidad activa",
               "Interfaz intuitiva"
             ]

@@ -4,7 +4,7 @@
 <!-- Homepage -->
 <url>
   <loc>https://tusecreto.net/</loc>
-  <lastmod>2024-12-10T00:00:00.000Z</lastmod>
+  <lastmod>2025-08-16T00:00:00.000Z</lastmod>
   <changefreq>daily</changefreq>
   <priority>1.0</priority>
 </url>
@@ -12,28 +12,28 @@
 <!-- Static Pages -->
 <url>
   <loc>https://tusecreto.net/privacy</loc>
-  <lastmod>2024-12-10T00:00:00.000Z</lastmod>
+  <lastmod>2025-08-16T00:00:00.000Z</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.8</priority>
 </url>
 
 <url>
   <loc>https://tusecreto.net/terms</loc>
-  <lastmod>2024-12-10T00:00:00.000Z</lastmod>
+  <lastmod>2025-08-16T00:00:00.000Z</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.8</priority>
 </url>
 
 <url>
   <loc>https://tusecreto.net/messages</loc>
-  <lastmod>2024-12-10T00:00:00.000Z</lastmod>
+  <lastmod>2025-08-16T00:00:00.000Z</lastmod>
   <changefreq>weekly</changefreq>
   <priority>0.7</priority>
 </url>
 
 <url>
   <loc>https://tusecreto.net/profile</loc>
-  <lastmod>2024-12-10T00:00:00.000Z</lastmod>
+  <lastmod>2025-08-16T00:00:00.000Z</lastmod>
   <changefreq>weekly</changefreq>
   <priority>0.7</priority>
 </url>
@@ -41,7 +41,7 @@
 <!-- Admin (if public) -->
 <url>
   <loc>https://tusecreto.net/admin</loc>
-  <lastmod>2024-12-10T00:00:00.000Z</lastmod>
+  <lastmod>2025-08-16T00:00:00.000Z</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.3</priority>
 </url>

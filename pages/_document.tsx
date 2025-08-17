@@ -8,7 +8,7 @@ export default function Document() {
         
         {/* Fallback title and description - Always present */}
         <title>TuSecreto - Plataforma Anónima para Compartir Secretos | Máxima Privacidad</title>
-        <meta name="description" content="🔒 Comparte secretos 100% anónimos. Sin emails, sin registro, sin rastreo. Hosting en Suecia con máxima privacidad. Únete a la comunidad más segura de secretos anónimos. ¡Totalmente gratis!" />
+        <meta name="description" content="🔒 Comparte secretos 100% anónimos. Sin emails, sin registro, sin rastreo. Máxima privacidad garantizada. Únete a la comunidad más segura de secretos anónimos. ¡Totalmente gratis!" />
         
         {/* Basic SEO */}
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
