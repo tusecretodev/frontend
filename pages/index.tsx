@@ -244,7 +244,7 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="TuSecreto - Secretos Anónimos y Privados | Máxima Privacidad 2024"
+        title="TuSecreto - Secretos Anónimos y Privados | Máxima Privacidad 2025"
         description="🔒 Descubre y comparte secretos 100% anónimos. Sin emails, sin registro, sin rastreo. La comunidad más privada de secretos. ¡Gratis y sin límites!"
         keywords="secretos anónimos, confesar secretos, plataforma privada, anonimato real, compartir secretos, comunidad anónima, secretos online, confesiones privadas, privacidad digital, sin registro, gratis"
         url="https://tusecreto.net"

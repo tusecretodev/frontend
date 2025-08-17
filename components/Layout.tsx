@@ -460,11 +460,8 @@ export default function Layout({ children, user, onLogin, onLogout }: LayoutProp
             <div className="space-y-4">
               <h4 className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'var(--text-primary)' }}>Legal</h4>
               <div className="space-y-2">
-                <Link href="/terms" className="block text-sm transition-colors duration-200 hover:underline" style={{ color: 'var(--text-secondary)' }}>
-                  Términos y Condiciones
-                </Link>
-                <Link href="/privacy" className="block text-sm transition-colors duration-200 hover:underline" style={{ color: 'var(--text-secondary)' }}>
-                  Política de Privacidad
+                <Link href="/rules" className="block text-sm transition-colors duration-200 hover:underline" style={{ color: 'var(--text-secondary)' }}>
+                  Reglas de la Plataforma
                 </Link>
               </div>
             </div>
